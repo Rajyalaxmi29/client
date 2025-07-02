@@ -28,7 +28,7 @@ export default function Register() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors">
       <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow max-w-sm w-full">
         <h2 className="text-2xl font-bold mb-6 text-center text-pink-500">
           Create Account

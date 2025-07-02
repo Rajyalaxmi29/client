@@ -37,47 +37,49 @@ const uploads = [
 
 export default function Dashboard() {
   return (
-    <div className="container mx-auto p-6">
-      <h2 className="text-3xl font-bold mb-6 text-gray-900 dark:text-gray-100">
-        Your Style Dashboard
-      </h2>
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {uploads.map((upload) => (
-          <div
-            key={upload.id}
-            className="bg-white dark:bg-gray-800 rounded-xl shadow p-4 flex flex-col items-center"
-          >
-            <img
-              src={upload.image}
-              alt="Outfit"
-              className="w-40 h-40 object-cover rounded mb-4 border-2 border-gray-200 dark:border-gray-700"
-            />
-            <div className="flex space-x-2 mb-2">
-              {upload.colors.map((color, i) => (
-                <span
-                  key={i}
-                  className="w-6 h-6 rounded-full border"
-                  style={{ backgroundColor: color }}
-                  title={color}
-                />
-              ))}
+    <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors">
+      <div className="container mx-auto p-6">
+        <h2 className="text-3xl font-bold mb-6 text-gray-900 dark:text-gray-100">
+          Your Style Dashboard
+        </h2>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {uploads.map((upload) => (
+            <div
+              key={upload.id}
+              className="bg-white dark:bg-gray-800 rounded-xl shadow p-4 flex flex-col items-center transition-colors"
+            >
+              <img
+                src={upload.image}
+                alt="Outfit"
+                className="w-40 h-40 object-cover rounded mb-4 border-2 border-gray-200 dark:border-gray-700"
+              />
+              <div className="flex space-x-2 mb-2">
+                {upload.colors.map((color, i) => (
+                  <span
+                    key={i}
+                    className="w-6 h-6 rounded-full border"
+                    style={{ backgroundColor: color }}
+                    title={color}
+                  />
+                ))}
+              </div>
+              <div className="flex items-center space-x-2 mb-2">
+                {upload.moods && upload.moods.map((mood, idx) => (
+                  <span
+                    key={idx}
+                    className={`inline-block px-2 py-1 rounded-full text-xs mr-2 ${mood.bg} ${mood.text}`}
+                  >
+                    {mood.label}
+                  </span>
+                ))}
+              </div>
+              <p className="text-gray-700 dark:text-gray-300 text-sm mb-2 text-center">
+                {upload.feedback}
+              </p>
+              <span className="text-xs text-gray-400 dark:text-gray-500">{upload.date}</span>
             </div>
-            <div className="flex items-center space-x-2 mb-2">
-              {upload.moods && upload.moods.map((mood, idx) => (
-                <span
-                  key={idx}
-                  className={`inline-block px-2 py-1 rounded-full text-xs mr-2 ${mood.bg} ${mood.text}`}
-                >
-                  {mood.label}
-                </span>
-              ))}
-            </div>
-            <p className="text-gray-700 dark:text-gray-300 text-sm mb-2 text-center">
-              {upload.feedback}
-            </p>
-            <span className="text-xs text-gray-400 dark:text-gray-500">{upload.date}</span>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );
