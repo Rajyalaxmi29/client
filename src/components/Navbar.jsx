@@ -10,14 +10,14 @@ export default function Navbar() {
 
   return (
     <nav className="bg-white dark:bg-gray-900 shadow-md sticky top-0 z-10 transition">
-      <div className="container mx-auto flex justify-between items-center py-3 px-4 md:px-8">
+      <div className="container mx-auto flex flex-col sm:flex-row sm:justify-between items-center py-3 px-4 md:px-8">
         <NavLink
           to="/"
           className="text-2xl font-extrabold text-pink-500 tracking-wide"
         >
           StyleSense
         </NavLink>
-        <div className="flex items-center space-x-1 md:space-x-3">
+        <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3 mt-3 sm:mt-0">
           <NavLink
             to="/"
             className={({ isActive }) =>
