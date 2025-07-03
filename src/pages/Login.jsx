@@ -19,6 +19,7 @@ export default function Login() {
       setError("Please fill in all fields.");
       return;
     }
+     console.log(form);
     try {
       const res = await fetch("http://localhost:5000/api/auth/login", {
         method: "POST",
