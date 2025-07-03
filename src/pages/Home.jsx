@@ -3,9 +3,16 @@ import React from 'react';
 export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#fdf6f0] via-[#e0e7fa] to-[#f8e1f4] transition-colors flex flex-col">
-      {/* Hero Section */}
+      {/* Hero Section (Image Left, Text Right) */}
       <section className="flex flex-col md:flex-row items-center justify-between px-8 py-16 max-w-6xl mx-auto gap-12">
-        <div className="flex-1">
+        <div className="flex-1 flex justify-center">
+          <img
+            src="https://plus.unsplash.com/premium_photo-1664202526559-e21e9c0fb46a?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            alt="Fashion AI preview"
+            className="w-80 h-96 object-cover rounded-3xl shadow-xl border-4 border-white"
+          />
+        </div>
+        <div className="flex-1 md:pl-12">
           <h1 className="text-5xl font-extrabold mb-4 text-gray-900">
             Your Private AI Fashion Assistant
           </h1>
@@ -20,22 +27,15 @@ export default function Home() {
             Get Started
           </a>
         </div>
-        <div className="flex-1 flex justify-center">
-          <img
-            src="https://plus.unsplash.com/premium_photo-1664202526559-e21e9c0fb46a?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            alt="Fashion AI preview"
-            className="w-80 h-96 object-cover rounded-3xl shadow-xl border-4 border-white"
-          />
-        </div>
       </section>
 
-      {/* Upload Section (Image Right) */}
+      {/* Upload Section (Text Left, Image Right) */}
       <section className="max-w-6xl mx-auto flex flex-col md:flex-row-reverse items-center py-16 px-8 gap-12">
         <div className="flex-1 flex justify-center">
           <img
             src="https://images.unsplash.com/photo-1603400521630-9f2de124b33b?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             alt="Upload Outfit"
-            className="w-80 h-80 object-cover rounded-2xl shadow-lg"
+            className="w-80 h-80 object-cover rounded-2xl shadow-lg border-4 border-white"
           />
         </div>
         <div className="flex-1 md:pr-12">
@@ -52,13 +52,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* AI Analysis Section (Image Left) */}
+      {/* AI Analysis Section (Image Left, Text Right) */}
       <section className="max-w-6xl mx-auto flex flex-col md:flex-row items-center py-16 px-8 gap-12">
         <div className="flex-1 flex justify-center">
           <img
             src="https://plus.unsplash.com/premium_vector-1705526270279-0a529cfb31ab?w=352&dpr=2&h=367&auto=format&fit=crop&q=60&ixlib=rb-4.1.0"
             alt="AI Analysis"
-            className="w-80 h-80 object-cover rounded-2xl shadow-lg"
+            className="w-80 h-80 object-cover rounded-2xl shadow-lg border-4 border-white "
           />
         </div>
         <div className="flex-1 md:pl-12">
@@ -75,13 +75,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Dashboard Section (Image Right) */}
+      {/* Dashboard Section (Text Left, Image Right) */}
       <section className="max-w-6xl mx-auto flex flex-col md:flex-row-reverse items-center py-16 px-8 gap-12">
         <div className="flex-1 flex justify-center">
           <img
             src="https://media.istockphoto.com/id/2185596989/vector/casual-men-fashion-clothes-set-comfort-outfits-of-young-man-collection-in-wardrobe.jpg?s=612x612&w=0&k=20&c=Z_RE662zn2ptiTe6P9pFguIynKm1imXvg_W0qKPZ3Rw="
             alt="Dashboard"
-            className="w-80 h-80 object-cover rounded-2xl shadow-lg"
+            className="w-80 h-80 object-cover rounded-2xl shadow-lg border-4 border-white"
           />
         </div>
         <div className="flex-1 md:pr-12">
