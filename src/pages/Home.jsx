@@ -6,7 +6,12 @@ export default function Home() {
       {/* Hero Section */}
       <section className="flex flex-col md:flex-row items-center justify-between px-8 py-16 max-w-6xl mx-auto gap-12">
         <div className="flex-1">
-          <h1 className="text-5xl font-extrabold mb-4 text-gray-900">Your Private AI Fashion Assistant</h1>
+          <h1 className="text-5xl font-extrabold mb-4 text-gray-900">
+            Your Private AI Fashion Assistant
+          </h1>
+          <p className="text-sm text-gray-500 mt-2">
+            StyleSense helps you find your best look with privacy-first AI analysis and creative tools.
+          </p>
           <p className="mb-6 text-lg text-gray-700">
             Upload your outfit, get instant AI-powered feedback, discover your best colors, and build your wardrobe with confidence.<br />
             StyleSense helps you find your unique look—privately and securely.
@@ -34,7 +39,12 @@ export default function Home() {
           />
         </div>
         <div className="flex-1 md:pr-12">
-          <h2 className="text-3xl font-bold mb-3 text-gray-900">Upload Your Outfit & Skin Tone</h2>
+          <h2 className="text-3xl font-bold mb-3 text-gray-900">
+            Upload Your Outfit & Skin Tone
+          </h2>
+          <p className="text-sm text-gray-500 mt-2">
+            Easily upload your outfit and (optionally) your hand for skin tone detection. All uploads are private.
+          </p>
           <p className="text-lg text-gray-700 mb-2">
             Snap and upload your outfit and (optionally) your hand for skin tone detection.<br />
             <span className="font-semibold">Only you</span> can see your images. No one else has access.
@@ -52,7 +62,12 @@ export default function Home() {
           />
         </div>
         <div className="flex-1 md:pl-12">
-          <h2 className="text-3xl font-bold mb-3 text-gray-900">AI-Powered Feedback</h2>
+          <h2 className="text-3xl font-bold mb-3 text-gray-900">
+            AI-Powered Feedback
+          </h2>
+          <p className="text-sm text-gray-500 mt-2">
+            Instantly receive outfit ratings, color palette suggestions, and celebration animations—personalized for you.
+          </p>
           <p className="text-lg text-gray-700 mb-2">
             Instantly get outfit ratings, celebration animations, and color palette suggestions tailored to your mood and skin tone.<br />
             Our AI explains why each palette works for you.
@@ -70,7 +85,12 @@ export default function Home() {
           />
         </div>
         <div className="flex-1 md:pr-12">
-          <h2 className="text-3xl font-bold mb-3 text-gray-900">Your Style Dashboard</h2>
+          <h2 className="text-3xl font-bold mb-3 text-gray-900">
+            Your Style Dashboard
+          </h2>
+          <p className="text-sm text-gray-500 mt-2">
+            Track your style progress, plan outfits in a calendar, save your favorite looks and palettes, and manage your private style journal.
+          </p>
           <p className="text-lg text-gray-700 mb-2">
             Save your favorite outfits, color palettes, and ratings. Log in to track your style journey and revisit your best looks anytime.
           </p>
