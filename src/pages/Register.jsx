@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 
 export default function Register() {
@@ -13,6 +13,7 @@ export default function Register() {
 
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -29,13 +30,16 @@ export default function Register() {
       `Registered!\nName: ${form.name}\nAge: ${form.age}\nEmail: ${form.email}`
     );
     setForm({ name: "", age: "", email: "", password: "", confirmPassword: "" });
+    navigate("/login");
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-[#f8e1f4] via-[#e0e7fa] to-[#fdf6f0] px-2">
       <div className="w-full max-w-sm rounded-3xl shadow-2xl bg-white/80 backdrop-blur-md p-8 md:p-10 flex flex-col items-center animate-fade-in">
         {/* Optional: Add an icon or illustration here */}
-        <h2 className="text-2xl font-extrabold mb-6 text-center text-[#6C63FF]">Create Account</h2>
+        <h2 className="text-2xl font-extrabold mb-6 text-center text-[#6C63FF]">
+          Create Account
+        </h2>
         <form onSubmit={handleSubmit} className="w-full" autoComplete="off">
           <input
             type="text"

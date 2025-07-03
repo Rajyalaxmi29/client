@@ -35,7 +35,7 @@ export default function Login() {
       alert(`Welcome, ${data.user.name}!`);
       setForm({ email: "", password: "" });
       setError("");
-      navigate("/dashboard");
+      navigate("/"); // Redirects to home page after login
     } catch (err) {
       setError("Server error. Please try again.");
     }
