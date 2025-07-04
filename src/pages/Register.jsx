@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "./firebase"; // Adjust path if needed
 
 export default function Register() {
   const [form, setForm] = useState({
@@ -10,7 +12,6 @@ export default function Register() {
     password: "",
     confirmPassword: "",
   });
-
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
@@ -20,15 +21,20 @@ export default function Register() {
     setError("");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (form.password !== form.confirmPassword) {
       setError("Passwords do not match.");
       return;
     }
-    // No alert here
-    setForm({ name: "", age: "", email: "", password: "", confirmPassword: "" });
-    navigate("/login");
+    try {
+      await createUserWithEmailAndPassword(auth, form.email, form.password);
+      setForm({ name: "", age: "", email: "", password: "", confirmPassword: "" });
+      setError("");
+      navigate("/login");
+    } catch (error) {
+      setError(error.message);
+    }
   };
 
   return (

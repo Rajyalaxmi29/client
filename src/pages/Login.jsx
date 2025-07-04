@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "./firebase"; // Adjust path if needed
 
 export default function Login() {
   const [form, setForm] = useState({ email: "", password: "" });
@@ -19,26 +21,13 @@ export default function Login() {
       setError("Please fill in all fields.");
       return;
     }
-     console.log(form);
     try {
-      const res = await fetch("http://localhost:5000/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        setError(data.message || "Login failed.");
-        return;
-      }
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("user", JSON.stringify(data.user));
-      alert(`Welcome, ${data.user.name}!`);
+      await signInWithEmailAndPassword(auth, form.email, form.password);
       setForm({ email: "", password: "" });
       setError("");
       navigate("/"); // Redirects to home page after login
-    } catch (err) {
-      setError("Server error. Please try again.");
+    } catch (error) {
+      setError(error.message);
     }
   };
 
