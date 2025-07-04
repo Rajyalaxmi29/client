@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "./firebase"; // Adjust path if needed
+import { auth } from "../firebase"; // Adjust path if needed
 
 export default function Login() {
   const [form, setForm] = useState({ email: "", password: "" });
