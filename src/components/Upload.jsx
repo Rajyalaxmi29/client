@@ -1,5 +1,8 @@
 import React, { useState, useRef } from "react";
 import { CloudArrowUpIcon, CheckCircleIcon } from "@heroicons/react/24/solid";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { collection, addDoc, Timestamp } from "firebase/firestore";
+import { storage, db } from "../firebase"; // Adjust this path based on your structure
 
 const moodOptions = [
   { label: "😊 Confident", bg: "bg-blue-100", text: "text-blue-700" },
@@ -25,6 +28,7 @@ export default function Upload() {
   const [skinTone, setSkinTone] = useState("");
   const [step, setStep] = useState(1);
   const [success, setSuccess] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const fileInput = useRef();
 
   const handleFileChange = (e) => {
@@ -55,16 +59,37 @@ export default function Upload() {
       alert("Please select an outfit image and your skin tone before uploading.");
       return;
     }
-    setSuccess(true);
-    setTimeout(() => {
-      setSuccess(false);
-      setFile(null);
-      setPreview(null);
-      setSelectedMoods([]);
-      setSkinTone("");
-      setStep(1);
-      if (fileInput.current) fileInput.current.value = "";
-    }, 1800);
+
+    setUploading(true);
+
+    try {
+      const storageRef = ref(storage, `uploads/${Date.now()}-${file.name}`);
+      const snapshot = await uploadBytes(storageRef, file);
+      const downloadURL = await getDownloadURL(snapshot.ref);
+
+      await addDoc(collection(db, "outfits"), {
+        imageUrl: downloadURL,
+        skinTone,
+        moods: selectedMoods.map(m => m.label),
+        createdAt: Timestamp.now()
+      });
+
+      setSuccess(true);
+      setTimeout(() => {
+        setSuccess(false);
+        setFile(null);
+        setPreview(null);
+        setSelectedMoods([]);
+        setSkinTone("");
+        setStep(1);
+        if (fileInput.current) fileInput.current.value = "";
+      }, 1800);
+    } catch (err) {
+      console.error("Upload failed:", err);
+      alert("Upload failed. Please try again.");
+    } finally {
+      setUploading(false);
+    }
   };
 
   return (
@@ -72,20 +97,21 @@ export default function Upload() {
       <div className="bg-white/90 dark:bg-gray-800/90 p-8 rounded-2xl shadow-xl max-w-lg w-full">
         {/* Step Indicator */}
         <div className="flex items-center justify-center gap-2 mb-6">
-          <div className={`w-8 h-8 flex items-center justify-center rounded-full font-bold ${step >= 1 ? "bg-pink-400 text-white" : "bg-gray-200 text-gray-500"}`}>1</div>
-          <div className={`h-1 w-8 ${step >= 2 ? "bg-pink-400" : "bg-gray-200"}`}></div>
-          <div className={`w-8 h-8 flex items-center justify-center rounded-full font-bold ${step >= 2 ? "bg-pink-400 text-white" : "bg-gray-200 text-gray-500"}`}>2</div>
-          <div className={`h-1 w-8 ${step >= 3 ? "bg-pink-400" : "bg-gray-200"}`}></div>
-          <div className={`w-8 h-8 flex items-center justify-center rounded-full font-bold ${step === 3 ? "bg-pink-400 text-white" : "bg-gray-200 text-gray-500"}`}>3</div>
+          {[1, 2, 3].map((num, i) => (
+            <>
+              <div key={num} className={`w-8 h-8 flex items-center justify-center rounded-full font-bold ${step >= num ? "bg-pink-400 text-white" : "bg-gray-200 text-gray-500"}`}>{num}</div>
+              {i < 2 && <div className={`h-1 w-8 ${step > num ? "bg-pink-400" : "bg-gray-200"}`}></div>}
+            </>
+          ))}
         </div>
 
-        {/* Upload Area */}
         <h2 className="text-2xl font-bold mb-3 text-gray-800 dark:text-gray-100 text-center">
           Upload Your Outfit
         </h2>
         <p className="text-sm text-gray-500 dark:text-gray-400 text-center mb-4">
           <span className="font-medium">Your photos are private.</span> Only you can access and delete them.
         </p>
+
         <div
           className={`flex flex-col items-center justify-center border-2 border-dashed border-pink-400 rounded-lg p-6 cursor-pointer transition mb-4
             ${preview ? "bg-pink-50 dark:bg-gray-700" : "hover:bg-pink-50 dark:hover:bg-gray-700"}`}
@@ -95,11 +121,7 @@ export default function Upload() {
         >
           {preview ? (
             <>
-              <img
-                src={preview}
-                alt="Preview"
-                className="max-h-48 rounded shadow mb-2 animate-fade-in"
-              />
+              <img src={preview} alt="Preview" className="max-h-48 rounded shadow mb-2 animate-fade-in" />
               <p className="text-gray-600 dark:text-gray-300">{file?.name}</p>
               <button
                 className="mt-2 text-xs text-pink-500 hover:underline"
@@ -138,8 +160,7 @@ export default function Upload() {
                   type="button"
                   onClick={() => setSkinTone(tone.name)}
                   className={`flex items-center gap-2 px-3 py-1 rounded-full border transition
-                    ${skinTone === tone.name ? "ring-2 ring-pink-400 scale-105" : "opacity-80 hover:opacity-100"}
-                  `}
+                    ${skinTone === tone.name ? "ring-2 ring-pink-400 scale-105" : "opacity-80 hover:opacity-100"}`}
                   style={{ background: tone.color, color: "#222" }}
                 >
                   <span className="w-4 h-4 rounded-full border" style={{ background: tone.color, borderColor: "#bbb" }}></span>
@@ -167,8 +188,7 @@ export default function Upload() {
                     ${mood.bg} ${mood.text}
                     ${selectedMoods.includes(mood)
                       ? "ring-2 ring-pink-400 scale-105"
-                      : "opacity-80 hover:opacity-100"}
-                  `}
+                      : "opacity-80 hover:opacity-100"}`}
                 >
                   {mood.label}
                 </button>
@@ -179,10 +199,11 @@ export default function Upload() {
 
         {/* Upload Button */}
         <button
-          className="mt-8 w-full bg-gradient-to-r from-pink-400 to-blue-400 text-white px-6 py-2 rounded-full font-semibold hover:from-pink-500 hover:to-blue-500 transition text-lg shadow"
+          className="mt-8 w-full bg-gradient-to-r from-pink-400 to-blue-400 text-white px-6 py-2 rounded-full font-semibold hover:from-pink-500 hover:to-blue-500 transition text-lg shadow disabled:opacity-60"
           onClick={handleUpload}
+          disabled={uploading}
         >
-          {success ? (
+          {uploading ? "Uploading..." : success ? (
             <span className="flex items-center justify-center gap-2 animate-pulse">
               <CheckCircleIcon className="w-6 h-6 text-white" /> Uploaded!
             </span>
