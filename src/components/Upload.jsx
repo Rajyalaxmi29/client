@@ -1,8 +1,9 @@
 import React, { useState, useRef } from "react";
 import { CloudArrowUpIcon, CheckCircleIcon } from "@heroicons/react/24/solid";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { collection, addDoc, Timestamp } from "firebase/firestore";
-import { storage, db } from "../firebase"; // Adjust this path based on your structure
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { auth, storage, db } from "../firebase"; // adjust path if needed
+import { onAuthStateChanged } from "firebase/auth";
 
 const moodOptions = [
   { label: "😊 Confident", bg: "bg-blue-100", text: "text-blue-700" },
@@ -48,9 +49,7 @@ export default function Upload() {
 
   const toggleMood = (mood) => {
     setSelectedMoods((prev) =>
-      prev.includes(mood)
-        ? prev.filter((m) => m !== mood)
-        : [...prev, mood]
+      prev.includes(mood) ? prev.filter((m) => m !== mood) : [...prev, mood]
     );
   };
 
@@ -60,20 +59,31 @@ export default function Upload() {
       return;
     }
 
+    const user = auth.currentUser;
+    if (!user) {
+      alert("You must be logged in to upload.");
+      return;
+    }
+
     setUploading(true);
-
     try {
-      const storageRef = ref(storage, `uploads/${Date.now()}-${file.name}`);
-      const snapshot = await uploadBytes(storageRef, file);
-      const downloadURL = await getDownloadURL(snapshot.ref);
+      // Upload to Firebase Storage
+      const fileName = `${Date.now()}-${file.name}`;
+      const fileRef = ref(storage, `uploads/${user.uid}/${fileName}`);
+      await uploadBytes(fileRef, file);
 
+      const downloadURL = await getDownloadURL(fileRef);
+
+      // Save metadata to Firestore
       await addDoc(collection(db, "outfits"), {
+        uid: user.uid,
         imageUrl: downloadURL,
         skinTone,
-        moods: selectedMoods.map(m => m.label),
-        createdAt: Timestamp.now()
+        moods: selectedMoods.map((m) => m.label),
+        createdAt: serverTimestamp()
       });
 
+      // Success reset
       setSuccess(true);
       setTimeout(() => {
         setSuccess(false);
@@ -84,8 +94,8 @@ export default function Upload() {
         setStep(1);
         if (fileInput.current) fileInput.current.value = "";
       }, 1800);
-    } catch (err) {
-      console.error("Upload failed:", err);
+    } catch (error) {
+      console.error("Upload failed:", error);
       alert("Upload failed. Please try again.");
     } finally {
       setUploading(false);
@@ -97,21 +107,21 @@ export default function Upload() {
       <div className="bg-white/90 dark:bg-gray-800/90 p-8 rounded-2xl shadow-xl max-w-lg w-full">
         {/* Step Indicator */}
         <div className="flex items-center justify-center gap-2 mb-6">
-          {[1, 2, 3].map((num, i) => (
-            <>
-              <div key={num} className={`w-8 h-8 flex items-center justify-center rounded-full font-bold ${step >= num ? "bg-pink-400 text-white" : "bg-gray-200 text-gray-500"}`}>{num}</div>
-              {i < 2 && <div className={`h-1 w-8 ${step > num ? "bg-pink-400" : "bg-gray-200"}`}></div>}
-            </>
+          {[1, 2, 3].map((num) => (
+            <React.Fragment key={num}>
+              <div className={`w-8 h-8 flex items-center justify-center rounded-full font-bold ${step >= num ? "bg-pink-400 text-white" : "bg-gray-200 text-gray-500"}`}>{num}</div>
+              {num < 3 && <div className={`h-1 w-8 ${step > num ? "bg-pink-400" : "bg-gray-200"}`}></div>}
+            </React.Fragment>
           ))}
         </div>
 
-        <h2 className="text-2xl font-bold mb-3 text-gray-800 dark:text-gray-100 text-center">
+        {/* Upload Area */}
+        <h2 className="text-2xl font-bold mb-3 text-center text-gray-800 dark:text-gray-100">
           Upload Your Outfit
         </h2>
         <p className="text-sm text-gray-500 dark:text-gray-400 text-center mb-4">
-          <span className="font-medium">Your photos are private.</span> Only you can access and delete them.
+          <span className="font-medium">Private & Secure</span> — Only you can access your uploads.
         </p>
-
         <div
           className={`flex flex-col items-center justify-center border-2 border-dashed border-pink-400 rounded-lg p-6 cursor-pointer transition mb-4
             ${preview ? "bg-pink-50 dark:bg-gray-700" : "hover:bg-pink-50 dark:hover:bg-gray-700"}`}
@@ -125,7 +135,12 @@ export default function Upload() {
               <p className="text-gray-600 dark:text-gray-300">{file?.name}</p>
               <button
                 className="mt-2 text-xs text-pink-500 hover:underline"
-                onClick={e => { e.stopPropagation(); setFile(null); setPreview(null); setStep(1); }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setFile(null);
+                  setPreview(null);
+                  setStep(1);
+                }}
               >
                 Remove & choose another
               </button>
@@ -136,23 +151,15 @@ export default function Upload() {
               <span className="text-gray-500 dark:text-gray-400 mb-2">
                 Drag & drop or click to select
               </span>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleFileChange}
-                className="hidden"
-                ref={fileInput}
-              />
+              <input type="file" accept="image/*" onChange={handleFileChange} className="hidden" ref={fileInput} />
             </>
           )}
         </div>
 
-        {/* Step 2: Skin Tone */}
+        {/* Skin Tone */}
         {step >= 2 && (
           <div className="mt-6 animate-fade-in">
-            <p className="mb-2 font-semibold text-gray-700 dark:text-gray-200">
-              Select your skin tone:
-            </p>
+            <p className="mb-2 font-semibold text-gray-700 dark:text-gray-200">Select your skin tone:</p>
             <div className="flex flex-wrap gap-2">
               {skinTones.map((tone) => (
                 <button
@@ -172,12 +179,10 @@ export default function Upload() {
           </div>
         )}
 
-        {/* Step 3: Mood */}
+        {/* Mood */}
         {step >= 2 && (
           <div className="mt-6 animate-fade-in">
-            <p className="mb-2 font-semibold text-gray-700 dark:text-gray-200">
-              How do you feel in this outfit?
-            </p>
+            <p className="mb-2 font-semibold text-gray-700 dark:text-gray-200">How do you feel in this outfit?</p>
             <div className="flex flex-wrap gap-2">
               {moodOptions.map((mood) => (
                 <button
@@ -186,9 +191,7 @@ export default function Upload() {
                   onClick={() => toggleMood(mood)}
                   className={`px-2 py-1 rounded-full text-xs font-medium border transition
                     ${mood.bg} ${mood.text}
-                    ${selectedMoods.includes(mood)
-                      ? "ring-2 ring-pink-400 scale-105"
-                      : "opacity-80 hover:opacity-100"}`}
+                    ${selectedMoods.includes(mood) ? "ring-2 ring-pink-400 scale-105" : "opacity-80 hover:opacity-100"}`}
                 >
                   {mood.label}
                 </button>
@@ -199,17 +202,15 @@ export default function Upload() {
 
         {/* Upload Button */}
         <button
-          className="mt-8 w-full bg-gradient-to-r from-pink-400 to-blue-400 text-white px-6 py-2 rounded-full font-semibold hover:from-pink-500 hover:to-blue-500 transition text-lg shadow disabled:opacity-60"
+          className="mt-8 w-full bg-gradient-to-r from-pink-400 to-blue-400 text-white px-6 py-2 rounded-full font-semibold hover:from-pink-500 hover:to-blue-500 transition text-lg shadow disabled:opacity-50"
           onClick={handleUpload}
           disabled={uploading}
         >
-          {uploading ? "Uploading..." : success ? (
+          {success ? (
             <span className="flex items-center justify-center gap-2 animate-pulse">
               <CheckCircleIcon className="w-6 h-6 text-white" /> Uploaded!
             </span>
-          ) : (
-            "Upload"
-          )}
+          ) : uploading ? "Uploading..." : "Upload"}
         </button>
       </div>
     </div>
