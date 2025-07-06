@@ -4,6 +4,8 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { auth, storage, db } from "../firebase";
 import ColorThief from "color-thief-browser";
+import { useNavigate } from "react-router-dom";
+
 
 // Your existing arrays remain the same
 const moodOptions = [
@@ -42,7 +44,8 @@ const BodyPositivityPanel = ({ confidenceLevel, setConfidenceLevel }) => {
     "You deserve to feel amazing in whatever you choose to wear.",
     "Your body is worthy of love and beautiful clothes."
   ];
-  
+  const navigate = useNavigate();
+
   return (
     <div className="bg-gradient-to-r from-pink-100 to-purple-100 p-4 rounded-lg mb-4">
       <h3 className="text-lg font-semibold text-gray-800 mb-3">💖 Your Daily Boost</h3>
@@ -351,18 +354,11 @@ export default function EnhancedUpload() {
         confidenceLevel,
         createdAt: serverTimestamp()
       });
+setSuccess(true);
+setTimeout(() => {
+  navigate("/dashboard"); // Redirect to dashboard
+}, 1500);
 
-      setSuccess(true);
-      setTimeout(() => {
-        setSuccess(false);
-        setFile(null);
-        setPreview(null);
-        setSelectedMoods([]);
-        setSkinTone("");
-        setStep(1);
-        setAnalysis(null);
-        if (fileInput.current) fileInput.current.value = "";
-      }, 2000);
     } catch (error) {
       console.error("Upload failed:", error);
       alert("Upload failed. Please try again.");
