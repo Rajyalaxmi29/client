@@ -5,7 +5,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Upload from './components/Upload';
-import Dashboard from './components/Dashboard'; // Only this one!
+import Dashboard from './pages/Dashboard'; // Only this one!
 
 function App() {
   return (

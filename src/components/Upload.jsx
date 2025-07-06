@@ -1,10 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { CloudArrowUpIcon, CheckCircleIcon, HeartIcon, ChatBubbleLeftIcon } from "@heroicons/react/24/solid";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { auth, storage, db } from "../firebase";
 import ColorThief from "color-thief-browser";
-import { useNavigate } from "react-router-dom";
+
 
 
 // Your existing arrays remain the same
@@ -44,7 +45,7 @@ const BodyPositivityPanel = ({ confidenceLevel, setConfidenceLevel }) => {
     "You deserve to feel amazing in whatever you choose to wear.",
     "Your body is worthy of love and beautiful clothes."
   ];
-  const navigate = useNavigate();
+
 
   return (
     <div className="bg-gradient-to-r from-pink-100 to-purple-100 p-4 rounded-lg mb-4">
@@ -270,6 +271,7 @@ export default function EnhancedUpload() {
   
   const fileInput = useRef();
   const imgRef = useRef();
+  const navigate = useNavigate();
 
   // Your existing functions remain the same
   const handleFileChange = (e) => {
