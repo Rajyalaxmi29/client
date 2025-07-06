@@ -232,7 +232,7 @@ export default function Dashboard() {
                     <span className="text-sm font-semibold">Skin Tone:</span>
                     <span
                       className="inline-block w-8 h-8 rounded-full border-2 border-white"
-                      style={{ background: userProfile.skinColor }}
+                      style={{ background: "#e0ac69"/*userProfile.skinColor*/}}
                     ></span>
                     <span className="text-sm">{userProfile.skinTone}</span>
                   </div>
