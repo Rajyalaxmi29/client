@@ -1,14 +1,11 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { CloudArrowUpIcon, CheckCircleIcon, HeartIcon, ChatBubbleLeftIcon } from "@heroicons/react/24/solid";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { auth, storage, db } from "../firebase";
+import { auth, storage } from "../firebase";
 import ColorThief from "color-thief-browser";
 
-
-
-// Your existing arrays remain the same
+// Mood, skin tone, and palette options (unchanged)
 const moodOptions = [
   { label: "😊 Confident", bg: "bg-blue-100", text: "text-blue-700" },
   { label: "🌧️ Cozy", bg: "bg-yellow-100", text: "text-yellow-700" },
@@ -35,7 +32,7 @@ const colorPalettes = {
   Dark: ["#00CED1", "#C71585", "#808000"]
 };
 
-// New components for enhanced features
+// BodyPositivityPanel, StyleJournal, CommunityFeatures, StyleChallenges components (unchanged)
 const BodyPositivityPanel = ({ confidenceLevel, setConfidenceLevel }) => {
   const [showAffirmations, setShowAffirmations] = useState(false);
   const affirmations = [
@@ -45,8 +42,6 @@ const BodyPositivityPanel = ({ confidenceLevel, setConfidenceLevel }) => {
     "You deserve to feel amazing in whatever you choose to wear.",
     "Your body is worthy of love and beautiful clothes."
   ];
-
-
   return (
     <div className="bg-gradient-to-r from-pink-100 to-purple-100 p-4 rounded-lg mb-4">
       <h3 className="text-lg font-semibold text-gray-800 mb-3">💖 Your Daily Boost</h3>
@@ -57,7 +52,6 @@ const BodyPositivityPanel = ({ confidenceLevel, setConfidenceLevel }) => {
         >
           {showAffirmations ? "Hide Affirmation" : "Get Daily Affirmation"}
         </button>
-        
         {showAffirmations && (
           <div className="bg-white p-3 rounded-lg animate-fade-in shadow-sm">
             <p className="text-sm text-gray-700 italic text-center">
@@ -65,7 +59,6 @@ const BodyPositivityPanel = ({ confidenceLevel, setConfidenceLevel }) => {
             </p>
           </div>
         )}
-        
         <div>
           <label className="text-sm text-gray-600 block mb-1">How confident do you feel today?</label>
           <input 
@@ -91,26 +84,22 @@ const StyleJournal = () => {
   const [journalEntry, setJournalEntry] = useState("");
   const [selectedGoals, setSelectedGoals] = useState([]);
   const goals = ["Feel Confident", "Try Something New", "Express Creativity", "Comfort First", "Make a Statement"];
-  
   const toggleGoal = (goal) => {
     setSelectedGoals(prev => 
       prev.includes(goal) ? prev.filter(g => g !== goal) : [...prev, goal]
     );
   };
-  
   return (
     <div className="mt-6 bg-white p-4 rounded-lg border">
       <h3 className="text-lg font-semibold mb-3 flex items-center">
         📝 <span className="ml-2">Style Journal</span>
       </h3>
-      
       <textarea
         placeholder="How did this outfit make you feel? What did you love about it? Any styling wins or lessons learned?"
         value={journalEntry}
         onChange={(e) => setJournalEntry(e.target.value)}
         className="w-full p-3 border rounded-lg h-24 text-sm resize-none focus:ring-2 focus:ring-pink-400 focus:border-transparent"
       />
-      
       <div className="mt-4">
         <label className="text-sm font-medium text-gray-700 block mb-2">Today's Style Goals:</label>
         <div className="flex flex-wrap gap-2">
@@ -129,7 +118,6 @@ const StyleJournal = () => {
           ))}
         </div>
       </div>
-      
       <button className="mt-3 bg-gradient-to-r from-pink-400 to-purple-400 text-white px-4 py-2 rounded-full text-sm hover:from-pink-500 hover:to-purple-500 transition">
         Save Journal Entry
       </button>
@@ -140,26 +128,22 @@ const StyleJournal = () => {
 const CommunityFeatures = () => {
   const [showCreatePost, setShowCreatePost] = useState(false);
   const [postText, setPostText] = useState("");
-  
   const communityPosts = [
     { id: 1, author: "StyleStar22", content: "Tried a bold color today and felt amazing! 💪", likes: 12, comments: 3 },
     { id: 2, author: "FashionExplorer", content: "Mixed patterns for the first time - stepping out of my comfort zone!", likes: 8, comments: 5 },
     { id: 3, author: "ConfidentMe", content: "Learning to love my style journey, one outfit at a time ✨", likes: 15, comments: 7 }
   ];
-  
   return (
     <div className="mt-6 bg-white p-4 rounded-lg border">
       <h3 className="text-lg font-semibold mb-3 flex items-center">
         👥 <span className="ml-2">Style Community</span>
       </h3>
-      
       <button 
         onClick={() => setShowCreatePost(!showCreatePost)}
         className="w-full bg-gradient-to-r from-purple-400 to-pink-400 text-white py-2 rounded-full mb-4 hover:from-purple-500 hover:to-pink-500 transition"
       >
         Share Your Style Journey
       </button>
-      
       {showCreatePost && (
         <div className="space-y-3 animate-fade-in bg-gray-50 p-3 rounded-lg mb-4">
           <textarea 
@@ -179,7 +163,6 @@ const CommunityFeatures = () => {
           </div>
         </div>
       )}
-      
       <div className="space-y-3 max-h-64 overflow-y-auto">
         {communityPosts.map(post => (
           <div key={post.id} className="bg-gray-50 p-3 rounded-lg">
@@ -213,13 +196,11 @@ const StyleChallenges = () => {
     { id: 2, title: "Mix patterns", progress: 1, total: 2, reward: "Pattern Master Badge", emoji: "🔄" },
     { id: 3, title: "Confidence selfie", progress: 0, total: 1, reward: "Self-Love Champion", emoji: "📸" }
   ]);
-  
   return (
     <div className="mt-6 bg-white p-4 rounded-lg border">
       <h3 className="text-lg font-semibold mb-3 flex items-center">
         🏆 <span className="ml-2">Style Challenges</span>
       </h3>
-      
       <div className="space-y-3">
         {challenges.map(challenge => (
           <div key={challenge.id} className="bg-gradient-to-r from-green-100 to-blue-100 p-3 rounded-lg">
@@ -232,14 +213,12 @@ const StyleChallenges = () => {
                 {challenge.progress}/{challenge.total}
               </span>
             </div>
-            
             <div className="w-full bg-gray-200 rounded-full h-2 mb-2">
               <div 
                 className="bg-gradient-to-r from-green-400 to-blue-400 h-2 rounded-full transition-all duration-300"
                 style={{ width: `${(challenge.progress / challenge.total) * 100}%` }}
               ></div>
             </div>
-            
             <div className="text-xs text-gray-600 flex items-center justify-between">
               <span>🎁 Reward: {challenge.reward}</span>
               {challenge.progress === challenge.total && (
@@ -255,7 +234,6 @@ const StyleChallenges = () => {
 
 // Main enhanced component
 export default function EnhancedUpload() {
-  // Your existing state variables
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
   const [selectedMoods, setSelectedMoods] = useState([]);
@@ -264,16 +242,12 @@ export default function EnhancedUpload() {
   const [success, setSuccess] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [analysis, setAnalysis] = useState(null);
-  
-  // New state for enhanced features
   const [confidenceLevel, setConfidenceLevel] = useState(5);
   const [activeTab, setActiveTab] = useState("upload");
-  
   const fileInput = useRef();
   const imgRef = useRef();
   const navigate = useNavigate();
 
-  // Your existing functions remain the same
   const handleFileChange = (e) => {
     const selected = e.target.files[0];
     setFile(selected);
@@ -300,7 +274,6 @@ export default function EnhancedUpload() {
   const analyzeColors = async () => {
     if (!imgRef.current || !skinTone) return;
     const colorThief = new ColorThief();
-
     try {
       const dominant = await colorThief.getColor(imgRef.current);
       const palette = colorPalettes[skinTone] || [];
@@ -326,6 +299,7 @@ export default function EnhancedUpload() {
     return `💡 Try experimenting with warmer or cooler tones to enhance your natural ${tone} beauty. Every style journey is unique!`;
   };
 
+  // ----------- CHANGED: Upload Handler Now Sends Data to MongoDB Backend -----------
   const handleUpload = async () => {
     if (!file || !skinTone || !analysis) {
       alert("Please select an outfit image, skin tone and analyze before uploading.");
@@ -340,26 +314,33 @@ export default function EnhancedUpload() {
 
     setUploading(true);
     try {
+      // 1. Upload image to Firebase Storage (as before)
       const fileName = `${Date.now()}-${file.name}`;
       const fileRef = ref(storage, `uploads/${user.uid}/${fileName}`);
       await uploadBytes(fileRef, file);
       const downloadURL = await getDownloadURL(fileRef);
 
-      await addDoc(collection(db, "outfits"), {
-        uid: user.uid,
-        imageUrl: downloadURL,
-        skinTone,
-        moods: selectedMoods.map((m) => m.label),
-        colorRating: analysis.rating,
-        feedback: analysis.feedback,
-        suggestedPalette: analysis.palette,
-        confidenceLevel,
-        createdAt: serverTimestamp()
+      // 2. Send metadata to your backend (Node.js/Express + MongoDB Atlas)
+      await fetch("http://localhost:5000/api/outfits", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: user.uid,
+          imageUrl: downloadURL,
+          skinTone,
+          moods: selectedMoods.map((m) => m.label),
+          colorRating: analysis.rating,
+          feedback: analysis.feedback,
+          suggestedPalette: analysis.palette,
+          confidenceLevel,
+          createdAt: new Date().toISOString()
+        })
       });
-setSuccess(true);
-setTimeout(() => {
-  navigate("/dashboard"); // Redirect to dashboard
-}, 1500);
+
+      setSuccess(true);
+      setTimeout(() => {
+        navigate("/dashboard"); // Redirect to dashboard
+      }, 1500);
 
     } catch (error) {
       console.error("Upload failed:", error);
@@ -368,6 +349,7 @@ setTimeout(() => {
       setUploading(false);
     }
   };
+  // -------------------------------------------------------------------------------
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#fdf6f0] via-[#e0e7fa] to-[#f8e1f4] py-8 px-4">
