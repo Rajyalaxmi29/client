@@ -5,18 +5,10 @@ import { FaCamera, FaPalette, FaCalendarAlt, FaTshirt, FaLock } from 'react-icon
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const navLinks = [
-    { to: "/", label: "Home" },
-    { to: "/upload", label: "Upload" },
-    { to: "/dashboard", label: "Dashboard" },
-    { to: "/login", label: "Login" },
-    { to: "/register", label: "Register" },
-  ];
-
   return (
     <nav className="bg-[#1A1A2E] bg-opacity-90 backdrop-filter backdrop-blur-lg fixed w-full z-50 border-b border-gray-800">
       <div className="max-w-7xl mx-auto flex justify-between items-center py-3 px-4 md:px-8">
-        {/* Brand Logo - matches home page style */}
+        {/* Brand Logo */}
         <NavLink
           to="/"
           className="logo text-2xl font-bold text-white"
@@ -25,7 +17,7 @@ export default function Navbar() {
           Style<span className="bg-gradient-to-r from-[#FF4D89] to-[#FF9E80] bg-clip-text text-transparent">Sense</span>
         </NavLink>
 
-        {/* Desktop Navigation - matches home page links */}
+        {/* Desktop Navigation */}
         <div className="hidden md:flex items-center space-x-8">
           <NavLink
             to="/"
@@ -37,37 +29,44 @@ export default function Navbar() {
             Home
           </NavLink>
           <NavLink
-            to="/features"
+            to="/upload"
             className={({ isActive }) => 
               `text-white hover:text-[#FF4D89] transition-colors duration-300 font-medium
               ${isActive ? 'text-[#FF4D89]' : ''}`
             }
           >
-            Features
+            <div className="flex items-center">
+              <FaCamera className="mr-2" /> Style Analysis
+            </div>
           </NavLink>
           <NavLink
-            to="/how-it-works"
+            to="/dashboard"
             className={({ isActive }) => 
               `text-white hover:text-[#FF4D89] transition-colors duration-300 font-medium
               ${isActive ? 'text-[#FF4D89]' : ''}`
             }
           >
-            How It Works
+            <div className="flex items-center">
+              <FaTshirt className="mr-2" /> My Wardrobe
+            </div>
           </NavLink>
           <NavLink
-            to="/pricing"
+            to="/community"
             className={({ isActive }) => 
               `text-white hover:text-[#FF4D89] transition-colors duration-300 font-medium
               ${isActive ? 'text-[#FF4D89]' : ''}`
             }
           >
-            Pricing
+            Community
           </NavLink>
           
-          {/* CTA Button - matches home page style */}
-          <button className="bg-gradient-to-r from-[#FF4D89] to-[#FF9E80] text-white px-6 py-2 rounded-full font-semibold hover:shadow-lg hover:shadow-pink-500/30 transition-all duration-300">
-            Get Started
-          </button>
+          {/* CTA Button */}
+          <NavLink
+            to="/upload"
+            className="bg-gradient-to-r from-[#FF4D89] to-[#FF9E80] text-white px-6 py-2 rounded-full font-semibold hover:shadow-lg hover:shadow-pink-500/30 transition-all duration-300"
+          >
+            Try It Now
+          </NavLink>
         </div>
 
         {/* Mobile Menu Button */}
@@ -102,40 +101,44 @@ export default function Navbar() {
             Home
           </NavLink>
           <NavLink
-            to="/features"
+            to="/upload"
             onClick={() => setMenuOpen(false)}
             className={({ isActive }) => 
-              `block px-4 py-3 rounded-lg font-medium transition-colors
+              `block px-4 py-3 rounded-lg font-medium transition-colors flex items-center
               ${isActive ? 'text-[#FF4D89] bg-[#1A1A2E]' : 'text-white hover:bg-[#1A1A2E]/80'}`
             }
           >
-            Features
+            <FaCamera className="mr-2" /> Style Analysis
           </NavLink>
           <NavLink
-            to="/how-it-works"
+            to="/dashboard"
             onClick={() => setMenuOpen(false)}
             className={({ isActive }) => 
-              `block px-4 py-3 rounded-lg font-medium transition-colors
+              `block px-4 py-3 rounded-lg font-medium transition-colors flex items-center
               ${isActive ? 'text-[#FF4D89] bg-[#1A1A2E]' : 'text-white hover:bg-[#1A1A2E]/80'}`
             }
           >
-            How It Works
+            <FaTshirt className="mr-2" /> My Wardrobe
           </NavLink>
           <NavLink
-            to="/pricing"
+            to="/community"
             onClick={() => setMenuOpen(false)}
             className={({ isActive }) => 
               `block px-4 py-3 rounded-lg font-medium transition-colors
               ${isActive ? 'text-[#FF4D89] bg-[#1A1A2E]' : 'text-white hover:bg-[#1A1A2E]/80'}`
             }
           >
-            Pricing
+            Community
           </NavLink>
           
           {/* Mobile CTA Button */}
-          <button className="w-full mt-4 bg-gradient-to-r from-[#FF4D89] to-[#FF9E80] text-white px-6 py-3 rounded-full font-semibold hover:shadow-lg hover:shadow-pink-500/30 transition-all duration-300">
-            Get Started
-          </button>
+          <NavLink
+            to="/upload"
+            onClick={() => setMenuOpen(false)}
+            className="w-full mt-4 bg-gradient-to-r from-[#FF4D89] to-[#FF9E80] text-white px-6 py-3 rounded-full font-semibold hover:shadow-lg hover:shadow-pink-500/30 transition-all duration-300 text-center block"
+          >
+            Try It Now
+          </NavLink>
         </div>
       )}
     </nav>
