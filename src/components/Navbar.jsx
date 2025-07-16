@@ -13,20 +13,15 @@ export default function Navbar() {
     { to: "/register", label: "Register" },
   ];
 
-  const navLinkClass =
-    "relative px-4 py-2 rounded-lg font-medium text-base transition-all duration-200 focus:outline-none";
-  const baseColor =
-    "text-gray-700 hover:text-[#6C63FF]";
-
   return (
-    <nav className="bg-gradient-to-r from-[#e0e7fa] via-[#f2f0ea] to-[#ff78ac] shadow-lg rounded-b-2xl sticky top-0 z-20 transition-all duration-300">
-      <div className="max-w-7xl mx-auto flex justify-between items-center py-3 px-4 md:px-8">
+    <nav className="bg-[#0A2463] shadow-lg sticky top-0 z-20">
+      <div className="max-w-7xl mx-auto flex justify-between items-center py-4 px-4 md:px-8">
         {/* Brand + Sparkle */}
         <div className="flex items-center gap-2">
-          <SparklesIcon className="w-7 h-7 text-[#FF78AC] drop-shadow animate-bounce" />
+          <SparklesIcon className="w-6 h-6 text-[#FFD700] animate-pulse" />
           <NavLink
             to="/"
-            className="text-2xl font-extrabold tracking-wide text-[#6C63FF] drop-shadow-lg hover:scale-105 transition-transform"
+            className="text-2xl font-extrabold tracking-wide text-white hover:text-[#FFD700] transition-colors"
             style={{ letterSpacing: '0.05em' }}
             onClick={() => setMenuOpen(false)}
           >
@@ -35,31 +30,27 @@ export default function Navbar() {
         </div>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-3">
+        <div className="hidden md:flex items-center gap-1">
           {navLinks.map(({ to, label }) => (
             <NavLink
               key={to}
               to={to}
               className={({ isActive }) =>
                 [
-                  navLinkClass,
-                  baseColor,
-                  "hover:bg-[#e0e7fa]/70",
-                  "hover:scale-105 hover:shadow-md",
-                  isActive
-                    ? "text-[#FF78AC] bg-[#e0e7fa] font-bold"
-                    : "",
+                  "relative px-4 py-2 rounded-lg font-medium text-base",
+                  "transition-all duration-200 focus:outline-none",
+                  "text-white hover:text-[#FFD700] hover:bg-[#0A2463]/90",
+                  isActive ? "text-[#FFD700] font-semibold bg-[#0A2463]/80" : "",
                 ].join(" ")
               }
             >
               <span className="relative group">
                 {label}
-                {/* Animated underline */}
                 <span
                   className={`
                     absolute left-0 right-0 -bottom-1 h-0.5 rounded-full
-                    bg-[#6C63FF] transition-all duration-300
-                    ${window.location.pathname === to ? "opacity-100 scale-x-100" : "opacity-0 group-hover:opacity-100 group-hover:scale-x-100"}
+                    bg-[#FFD700] transition-all duration-300
+                    ${window.location.pathname === to ? "opacity-100 scale-x-100" : "opacity-0 group-hover:opacity-100 group-hover:scale-x-75"}
                   `}
                   aria-hidden="true"
                 />
@@ -68,40 +59,44 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* Hamburger Icon */}
+        {/* Mobile Menu Button */}
         <button
-          className="md:hidden p-2 rounded focus:outline-none focus:ring-2 focus:ring-pink-300"
+          className="md:hidden p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-[#FFD700]"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label={menuOpen ? "Close menu" : "Open menu"}
         >
           {menuOpen ? (
-            <XMarkIcon className="h-7 w-7 text-[#6C63FF]" />
+            <XMarkIcon className="h-6 w-6 text-white" />
           ) : (
-            <Bars3Icon className="h-7 w-7 text-[#6C63FF]" />
+            <Bars3Icon className="h-6 w-6 text-white" />
           )}
         </button>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu - Fixed isActive usage */}
       {menuOpen && (
-        <div className="md:hidden bg-white/95 shadow-lg rounded-b-2xl px-6 pt-2 pb-4 flex flex-col gap-2 animate-fade-in-down">
+        <div className="md:hidden bg-[#0A2463] shadow-lg px-6 pt-2 pb-4 flex flex-col gap-1 animate-fade-in-down">
           {navLinks.map(({ to, label }) => (
             <NavLink
               key={to}
               to={to}
               onClick={() => setMenuOpen(false)}
-              className={({ isActive }) =>
+              className={({ isActive: active }) =>  // Correctly parameterized
                 [
-                  navLinkClass,
-                  baseColor,
-                  "hover:bg-[#e0e7fa]/70",
-                  isActive
-                    ? "text-[#FF78AC] bg-[#e0e7fa] font-bold"
-                    : "",
+                  "px-4 py-3 rounded-lg font-medium transition-colors",
+                  "text-white hover:bg-[#0A2463]/90",
+                  active ? "text-[#FFD700] font-semibold bg-[#0A2463]/80" : "",
                 ].join(" ")
               }
             >
-              {label}
+              {({ isActive }) => (  // Proper render prop pattern
+                <div className="flex items-center gap-2">
+                  {isActive && (
+                    <SparklesIcon className="w-4 h-4 text-[#FFD700]" />
+                  )}
+                  {label}
+                </div>
+              )}
             </NavLink>
           ))}
         </div>

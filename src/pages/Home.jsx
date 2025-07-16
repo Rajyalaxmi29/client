@@ -1,114 +1,136 @@
 import React from 'react';
+import { FiArrowRight, FiUpload, FiAward, FiCalendar, FiSmile, FiLock } from 'react-icons/fi';
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#fdf6f0] via-[#e0e7fa] to-[#f8e1f4] transition-colors flex flex-col">
-      {/* Hero Section (Image Left, Text Right) */}
-      <section className="flex flex-col md:flex-row items-center justify-between px-8 py-16 max-w-6xl mx-auto gap-12">
-        <div className="flex-1 flex justify-center">
-          <img
-            src="https://plus.unsplash.com/premium_photo-1664202526559-e21e9c0fb46a?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            alt="Fashion AI preview"
-            className="w-80 h-96 object-cover rounded-3xl shadow-xl border-4 border-white"
-          />
+    <div className="min-h-screen bg-[#1A1A1A] text-gray-100 font-sans">
+      {/* Hero Section */}
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-4.1.0&auto=format&fit=crop&w=1350&q=80')] bg-cover opacity-20"></div>
+        <div className="flex flex-col md:flex-row items-center justify-between px-8 py-24 max-w-6xl mx-auto gap-12 relative z-10">
+          <div className="flex-1">
+            <h1 className="text-5xl font-bold mb-6 text-white">
+              Your Private <span className="text-[#FFD700]">AI Fashion</span> Stylist
+            </h1>
+            <p className="text-lg text-gray-300 mb-8 max-w-2xl">
+              Discover your perfect look with AI-powered analysis, <span className="text-[#FFD700]">100% private</span>. 
+              Get instant feedback on colors, fits, and styles tailored just for you.
+            </p>
+            <div className="flex gap-4">
+              <a 
+                href="/upload" 
+                className="bg-[#FFD700] text-black px-8 py-3 rounded-full font-semibold hover:bg-[#E6C200] transition flex items-center gap-2"
+              >
+                Try Now <FiArrowRight />
+              </a>
+              <a 
+                href="#features" 
+                className="border border-[#FFD700] text-[#FFD700] px-6 py-3 rounded-full hover:bg-[#FFD700]/10 transition"
+              >
+                Explore Features
+              </a>
+            </div>
+          </div>
+          <div className="flex-1 flex justify-center">
+            <img
+              src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?ixlib=rb-4.1.0&auto=format&fit=crop&w=687&q=80"
+              alt="Fashion AI Preview"
+              className="w-full max-w-md rounded-2xl shadow-2xl border-4 border-[#FFD700]/30"
+            />
+          </div>
         </div>
-        <div className="flex-1 md:pl-12">
-          <h1 className="text-5xl font-extrabold mb-4 text-gray-900">
-            Your Private AI Fashion Assistant
-          </h1>
-          <p className="text-sm text-gray-500 mt-2">
-            StyleSense helps you find your best look with privacy-first AI analysis and creative tools.
+      </section>
+
+      {/* Features Grid */}
+      <section id="features" className="py-16 px-8 max-w-6xl mx-auto">
+        <h2 className="text-3xl font-bold text-center mb-12 text-white">
+          <span className="text-[#FFD700]">AI-Powered</span> Style Revolution
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {/* Feature 1: Virtual Try-On */}
+          <div className="bg-[#2D2D2D] p-6 rounded-xl hover:border hover:border-[#FFD700]/50 transition group">
+            <div className="bg-[#FFD700] w-12 h-12 rounded-full flex items-center justify-center mb-4">
+              <FiUpload className="text-black text-xl" />
+            </div>
+            <h3 className="text-xl font-semibold mb-2 text-white">Virtual Try-On</h3>
+            <p className="text-gray-400 mb-4">
+              See how clothes look on you in <span className="text-[#FFD700]">real-time AR</span> before buying.
+            </p>
+            <span className="text-xs bg-[#FFD700]/10 text-[#FFD700] px-3 py-1 rounded-full">Coming Soon</span>
+          </div>
+
+          {/* Feature 2: Smart Closet */}
+          <div className="bg-[#2D2D2D] p-6 rounded-xl hover:border hover:border-[#FFD700]/50 transition">
+            <div className="bg-[#FFD700] w-12 h-12 rounded-full flex items-center justify-center mb-4">
+              <FiAward className="text-black text-xl" />
+            </div>
+            <h3 className="text-xl font-semibold mb-2 text-white">Smart Closet</h3>
+            <p className="text-gray-400 mb-4">
+              Upload your wardrobe for <span className="text-[#FFD700]">AI-generated outfit combos</span>.
+            </p>
+            <span className="text-xs bg-[#FFD700]/10 text-[#FFD700] px-3 py-1 rounded-full">Beta</span>
+          </div>
+
+          {/* Feature 3: Style Calendar */}
+          <div className="bg-[#2D2D2D] p-6 rounded-xl hover:border hover:border-[#FFD700]/50 transition">
+            <div className="bg-[#FFD700] w-12 h-12 rounded-full flex items-center justify-center mb-4">
+              <FiCalendar className="text-black text-xl" />
+            </div>
+            <h3 className="text-xl font-semibold mb-2 text-white">Style Calendar</h3>
+            <p className="text-gray-400 mb-4">
+              Plan outfits by <span className="text-[#FFD700]">weather, mood, and events</span>.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* AI Analysis Section */}
+      <section className="py-16 px-8 max-w-6xl mx-auto bg-gradient-to-r from-[#1A1A1A] to-[#2D2D2D] rounded-2xl my-12">
+        <div className="flex flex-col md:flex-row items-center gap-12">
+          <div className="flex-1">
+            <img
+              src="https://images.unsplash.com/photo-1551232864-3f0890e580d9?ixlib=rb-4.1.0&auto=format&fit=crop&w=687&q=80"
+              alt="AI Analysis"
+              className="rounded-2xl shadow-xl border-4 border-[#FFD700]/20"
+            />
+          </div>
+          <div className="flex-1">
+            <h2 className="text-3xl font-bold mb-6 text-white">
+              <span className="text-[#FFD700]">Instant</span> AI Feedback
+            </h2>
+            <ul className="space-y-4">
+              <li className="flex items-start gap-3">
+                <FiSmile className="text-[#FFD700] mt-1" />
+                <p className="text-gray-300">
+                  <span className="font-semibold text-white">Mood-Based Suggestions:</span> Get outfits matching your energy.
+                </p>
+              </li>
+              <li className="flex items-start gap-3">
+                <FiLock className="text-[#FFD700] mt-1" />
+                <p className="text-gray-300">
+                  <span className="font-semibold text-white">Private Skin Tone Analysis:</span> Upload your hand for personalized palettes.
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-[#0A0A0A] py-12 text-center">
+        <div className="max-w-4xl mx-auto px-4">
+          <p className="text-white text-lg mb-6">
+            Ready to transform your style? <span className="text-[#FFD700]">Join 50,000+ users</span> who trust StyleSense.
           </p>
-          <p className="mb-6 text-lg text-gray-700">
-            Upload your outfit, get instant AI-powered feedback, discover your best colors, and build your wardrobe with confidence.<br />
-            StyleSense helps you find your unique look—privately and securely.
-          </p>
-          <a href="/upload" className="bg-gradient-to-r from-pink-400 to-blue-400 text-white px-8 py-3 rounded-full font-semibold shadow hover:from-pink-500 hover:to-blue-500 transition">
-            Get Started
+          <a 
+            href="/signup" 
+            className="bg-[#FFD700] text-black px-8 py-3 rounded-full font-semibold inline-flex items-center gap-2 hover:bg-[#E6C200] transition"
+          >
+            Start Free Trial <FiArrowRight />
           </a>
-        </div>
-      </section>
-
-      {/* Upload Section (Text Left, Image Right) */}
-      <section className="max-w-6xl mx-auto flex flex-col md:flex-row-reverse items-center py-16 px-8 gap-12">
-        <div className="flex-1 flex justify-center">
-          <img
-            src="https://images.unsplash.com/photo-1603400521630-9f2de124b33b?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            alt="Upload Outfit"
-            className="w-80 h-80 object-cover rounded-2xl shadow-lg border-4 border-white"
-          />
-        </div>
-        <div className="flex-1 md:pr-12">
-          <h2 className="text-3xl font-bold mb-3 text-gray-900">
-            Upload Your Outfit & Skin Tone
-          </h2>
-          <p className="text-sm text-gray-500 mt-2">
-            Easily upload your outfit and (optionally) your hand for skin tone detection. All uploads are private.
-          </p>
-          <p className="text-lg text-gray-700 mb-2">
-            Snap and upload your outfit and (optionally) your hand for skin tone detection.<br />
-            <span className="font-semibold">Only you</span> can see your images. No one else has access.
-          </p>
-        </div>
-      </section>
-
-      {/* AI Analysis Section (Image Left, Text Right) */}
-      <section className="max-w-6xl mx-auto flex flex-col md:flex-row items-center py-16 px-8 gap-12">
-        <div className="flex-1 flex justify-center">
-          <img
-            src="https://plus.unsplash.com/premium_vector-1705526270279-0a529cfb31ab?w=352&dpr=2&h=367&auto=format&fit=crop&q=60&ixlib=rb-4.1.0"
-            alt="AI Analysis"
-            className="w-80 h-80 object-cover rounded-2xl shadow-lg border-4 border-white "
-          />
-        </div>
-        <div className="flex-1 md:pl-12">
-          <h2 className="text-3xl font-bold mb-3 text-gray-900">
-            AI-Powered Feedback
-          </h2>
-          <p className="text-sm text-gray-500 mt-2">
-            Instantly receive outfit ratings, color palette suggestions, and celebration animations—personalized for you.
-          </p>
-          <p className="text-lg text-gray-700 mb-2">
-            Instantly get outfit ratings, celebration animations, and color palette suggestions tailored to your mood and skin tone.<br />
-            Our AI explains why each palette works for you.
-          </p>
-        </div>
-      </section>
-
-      {/* Dashboard Section (Text Left, Image Right) */}
-      <section className="max-w-6xl mx-auto flex flex-col md:flex-row-reverse items-center py-16 px-8 gap-12">
-        <div className="flex-1 flex justify-center">
-          <img
-            src="https://media.istockphoto.com/id/2185596989/vector/casual-men-fashion-clothes-set-comfort-outfits-of-young-man-collection-in-wardrobe.jpg?s=612x612&w=0&k=20&c=Z_RE662zn2ptiTe6P9pFguIynKm1imXvg_W0qKPZ3Rw="
-            alt="Dashboard"
-            className="w-80 h-80 object-cover rounded-2xl shadow-lg border-4 border-white"
-          />
-        </div>
-        <div className="flex-1 md:pr-12">
-          <h2 className="text-3xl font-bold mb-3 text-gray-900">
-            Your Style Dashboard
-          </h2>
-          <p className="text-sm text-gray-500 mt-2">
-            Track your style progress, plan outfits in a calendar, save your favorite looks and palettes, and manage your private style journal.
-          </p>
-          <p className="text-lg text-gray-700 mb-2">
-            Save your favorite outfits, color palettes, and ratings. Log in to track your style journey and revisit your best looks anytime.
-          </p>
-        </div>
-      </section>
-
-      {/* Privacy & Contact Footer */}
-      <footer className="bg-[#f8e1f4] py-10 text-center mt-12">
-        <div className="max-w-2xl mx-auto mb-4">
-          <p className="text-gray-700 text-lg font-semibold mb-2">
-            🔒 <span className="font-bold">Your privacy matters:</span> Your uploaded photos are <span className="font-bold">100% private</span>. Only you can access or delete them anytime. No one else will ever see your images.
-          </p>
-          <p className="text-gray-600 text-base">
-            For questions or support, contact us at: <a href="mailto:support@stylesense.com" className="text-pink-600 underline">support@stylesense.com</a>
-          </p>
-        </div>
-        <div className="text-gray-500 text-sm mt-4">
-          &copy; {new Date().getFullYear()} StyleSense. All rights reserved.
+          <div className="mt-8 text-gray-500 text-sm">
+            &copy; {new Date().getFullYear()} StyleSense. All rights reserved.
+          </div>
         </div>
       </footer>
     </div>
