@@ -12,7 +12,9 @@ const StyleSense = () => {
           <h1>Discover Your Perfect Style with <span>AI Fashion Assistant</span></h1>
           <p>StyleSense uses advanced artificial intelligence to analyze your outfits, suggest improvements, and help you develop a personal style that boosts your confidence. All while keeping your data 100% private.</p>
           <div className="hero-buttons">
-            <button className="cta-button">Try It Free</button>
+           <a href="/Upload">
+  <button class="cta-button">Try It Free</button>
+</a>
             <button className="secondary-button">See How It Works</button>
           </div>
         </div>
