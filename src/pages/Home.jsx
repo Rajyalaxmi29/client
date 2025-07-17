@@ -3,7 +3,7 @@ import { FaCamera, FaPalette, FaCalendarAlt, FaTshirt, FaLock, FaCheckCircle, Fa
 
 const StyleSense = () => {
   return (
-    <div>
+   <div style={{ paddingTop: '80px' }}>  {/* Add this line */}
       
 
       {/* Hero Section */}
@@ -368,7 +368,11 @@ const StyleSense = () => {
           transition: all 0.3s ease;
           position: relative;
         }
-        
+        .hero {
+  padding-top: 80px;  /* Add this line */
+  height: 100vh;
+  /* ... rest of your styles ... */
+}
         nav a:hover {
           color: var(--primary);
         }
