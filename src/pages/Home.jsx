@@ -1,309 +1,707 @@
 import React from 'react';
-import { FaCamera, FaPalette, FaCalendarAlt, FaTshirt, FaLock, FaCheckCircle, FaCheck, FaInstagram, FaTwitter, FaPinterest, FaTiktok } from 'react-icons/fa';
+import { motion } from 'framer-motion';
+import { 
+  FaCamera, FaPalette, FaCalendarAlt, FaTshirt, FaLock, 
+  FaCheckCircle, FaCheck, FaInstagram, FaTwitter, FaPinterest, 
+  FaTiktok, FaRobot, FaLanguage, FaSmile, FaGamepad, FaShoppingBag,
+  FaUsers, FaHeart, FaComments, FaCloudSun, FaUserShield, FaLeaf,
+  FaGem, FaMagic, FaMobileAlt, FaChartLine
+} from 'react-icons/fa';
+import { useInView } from 'react-intersection-observer';
+
+const FeatureCard = ({ icon, title, description, tag, link }) => {
+  const [ref, inView] = useInView({
+    threshold: 0.3,
+    triggerOnce: true
+  });
+
+  return (
+    <motion.a
+      href={link || "#"}
+      ref={ref}
+      initial={{ opacity: 0, y: 50 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6 }}
+      className="feature-card"
+      whileHover={{ y: -10 }}
+    >
+      <div className="feature-icon">
+        {icon}
+      </div>
+      <h3>{title}</h3>
+      <p>{description}</p>
+      {tag && <span className="feature-tag">{tag}</span>}
+    </motion.a>
+  );
+};
+
+const PricingCard = ({ title, price, features, popular, buttonText }) => {
+  const [ref, inView] = useInView({
+    threshold: 0.3,
+    triggerOnce: true
+  });
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 50 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6 }}
+      className={`pricing-card ${popular ? 'popular' : ''}`}
+    >
+      {popular && <div className="popular-tag">MOST POPULAR</div>}
+      <h3>{title}</h3>
+      <div className="price">{price}</div>
+      <div className="pricing-features">
+        {features.map((feature, index) => (
+          <div key={index} className="pricing-feature">
+            <FaCheck />
+            <p>{feature}</p>
+          </div>
+        ))}
+      </div>
+      <motion.button 
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        className="pricing-button"
+      >
+        {buttonText}
+      </motion.button>
+    </motion.div>
+  );
+};
+
+const TestimonialCard = ({ quote, author, role, avatar }) => {
+  const [ref, inView] = useInView({
+    threshold: 0.3,
+    triggerOnce: true
+  });
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 50 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6 }}
+      className="testimonial-card"
+    >
+      <p className="quote">"{quote}"</p>
+      <div className="testimonial-author">
+        <div className="author-avatar">
+          <img src={avatar} alt={author} />
+        </div>
+        <div className="author-info">
+          <h4>{author}</h4>
+          <p>{role}</p>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
 
 const StyleSense = () => {
-  return (
-   <div style={{ paddingTop: '80px' }}>  {/* Add this line */}
-      
+  const [heroRef, heroInView] = useInView({
+    threshold: 0.5,
+    triggerOnce: true
+  });
 
+  // Enhanced features array with all requested features
+  const features = [
+    {
+      icon: <FaCamera />,
+      title: "AI Skin Tone Analysis",
+      description: "Get personalized color recommendations based on your unique Indian skin tone. We specialize in darker complexions.",
+      tag: "BEST SELLER",
+      link: "/skin-tone-analysis"
+    },
+    {
+      icon: <FaPalette />,
+      title: "AI Color Palette Generator",
+      description: "Discover the perfect colors that complement your skin tone for any occasion.",
+      link: "/color-palette"
+    },
+    {
+      icon: <FaTshirt />,
+      title: "Virtual Try-On (AR)",
+      description: "See how clothes, jewelry and hairstyles look on you before buying with our augmented reality technology.",
+      tag: "NEW",
+      link: "/virtual-tryon"
+    },
+    {
+      icon: <FaRobot />,
+      title: "AI Style Assistant",
+      description: "Chat with our AI stylist in Telugu, Hindi or English for personalized fashion advice.",
+      link: "/style-assistant"
+    },
+    {
+      icon: <FaCalendarAlt />,
+      title: "Smart Style Calendar",
+      description: "Plan outfits based on weather, events and your schedule with AI recommendations.",
+      link: "/style-calendar"
+    },
+    {
+      icon: <FaLock />,
+      title: "Private AI Wardrobe",
+      description: "Catalog your clothes and get AI-generated outfit suggestions from items you own.",
+      link: "/wardrobe"
+    },
+    {
+      icon: <FaLanguage />,
+      title: "Regional Language Support",
+      description: "Get style advice in Telugu, Hindi, Tamil and other Indian languages.",
+      tag: "INDIAN SPECIAL",
+      link: "/language-support"
+    },
+    {
+      icon: <FaSmile />,
+      title: "Mood-Based Recommendations",
+      description: "Get outfit suggestions based on your mood and emotional state.",
+      link: "/mood-style"
+    },
+    {
+      icon: <FaGamepad />,
+      title: "Style Gamification",
+      description: "Earn badges and rewards for improving your fashion sense.",
+      link: "/gamification"
+    },
+    {
+      icon: <FaShoppingBag />,
+      title: "Shopping Integration",
+      description: "Connect with Myntra, Ajio and other Indian retailers to shop recommended looks.",
+      link: "/shopping"
+    },
+    {
+      icon: <FaUsers />,
+      title: "Private Style Community",
+      description: "Share and get feedback from real Indian users with similar body types.",
+      link: "/community"
+    },
+    {
+      icon: <FaHeart />,
+      title: "Will This Suit Me? Scanner",
+      description: "Upload any clothing image to see if it will suit your body type and skin tone.",
+      tag: "MAGIC",
+      link: "/suit-me"
+    },
+    {
+      icon: <FaComments />,
+      title: "AI Trend Analysis",
+      description: "Stay updated with real-time fashion trends customized for Indian users.",
+      link: "/trends"
+    },
+    {
+      icon: <FaCloudSun />,
+      title: "Seasonal Style Guide",
+      description: "Get recommendations based on Indian seasons and festivals.",
+      link: "/seasonal"
+    },
+    {
+      icon: <FaUserShield />,
+      title: "Privacy-First AI",
+      description: "Your data never leaves your device. No sharing with third parties.",
+      tag: "SECURE",
+      link: "/privacy"
+    },
+    {
+      icon: <FaLeaf />,
+      title: "Sustainable Fashion",
+      description: "AI recommendations to help you build an eco-friendly wardrobe.",
+      link: "/sustainable"
+    },
+    {
+      icon: <FaGem />,
+      title: "Jewelry Recommender",
+      description: "Find perfect jewelry pieces that complement your outfits and skin tone.",
+      link: "/jewelry"
+    },
+    {
+      icon: <FaMagic />,
+      title: "Avatar Cloning",
+      description: "Create a digital twin to try unlimited outfits virtually.",
+      tag: "COMING SOON",
+      link: "/avatar"
+    },
+    {
+      icon: <FaMobileAlt />,
+      title: "Mobile-First Experience",
+      description: "Optimized for Indian smartphone users with limited data plans.",
+      link: "/mobile"
+    }
+  ];
+
+  const pricingPlans = [
+    {
+      title: "Basic",
+      price: "₹0/month",
+      features: [
+        "5 outfit analyses per month",
+        "Basic color recommendations",
+        "Style journal",
+        "1 Indian language support"
+      ],
+      buttonText: "Get Started"
+    },
+    {
+      title: "Premium",
+      price: "₹299/month",
+      features: [
+        "Unlimited outfit analyses",
+        "Advanced skin tone matching",
+        "Virtual try-on (AR)",
+        "Smart wardrobe organizer",
+        "3 Indian language support",
+        "Priority support"
+      ],
+      popular: true,
+      buttonText: "Choose Premium"
+    },
+    {
+      title: "Professional",
+      price: "₹799/month",
+      features: [
+        "Everything in Premium",
+        "1-on-1 style consultation",
+        "Personal shopping assistant",
+        "Exclusive trend reports",
+        "All Indian languages",
+        "Business expense tracking"
+      ],
+      buttonText: "Go Professional"
+    }
+  ];
+
+  const testimonials = [
+    {
+      quote: "As a dark-skinned Indian woman, I always struggled with colors. StyleSense showed me which shades actually suit me. I've never received so many compliments!",
+      author: "Priya K.",
+      role: "Software Engineer, Hyderabad",
+      avatar: "https://randomuser.me/api/portraits/women/65.jpg"
+    },
+    {
+      quote: "The Telugu language support changed everything for my mother. She finally understands why certain outfits work better than others.",
+      author: "Rahul M.",
+      role: "College Student, Vijayawada",
+      avatar: "https://randomuser.me/api/portraits/men/42.jpg"
+    },
+    {
+      quote: "I wasted so much money on clothes that didn't suit me. The 'Will This Suit Me' scanner saved me thousands of rupees already!",
+      author: "Ananya S.",
+      role: "Marketing Executive, Bangalore",
+      avatar: "https://randomuser.me/api/portraits/women/33.jpg"
+    }
+  ];
+
+  return (
+    <div className="stylesense-container">
       {/* Hero Section */}
-      <section className="hero">
+      <motion.section 
+        ref={heroRef}
+        initial={{ opacity: 0 }}
+        animate={heroInView ? { opacity: 1 } : {}}
+        transition={{ duration: 1 }}
+        className="hero"
+      >
         <div className="hero-content">
-          <h1>Discover Your Perfect Style with <span>AI Fashion Assistant</span></h1>
-          <p>StyleSense uses advanced artificial intelligence to analyze your outfits, suggest improvements, and help you develop a personal style that boosts your confidence. All while keeping your data 100% private.</p>
-          <div className="hero-buttons">
-           <a href="/Upload">
-  <button class="cta-button">Try It Free</button>
-</a>
-            <button className="secondary-button">See How It Works</button>
-          </div>
+          <motion.h1
+            initial={{ y: 50, opacity: 0 }}
+            animate={heroInView ? { y: 0, opacity: 1 } : {}}
+            transition={{ delay: 0.2, duration: 0.8 }}
+          >
+            India's First <span>AI Personal Style Assistant</span>
+          </motion.h1>
+          <motion.p
+            initial={{ y: 50, opacity: 0 }}
+            animate={heroInView ? { y: 0, opacity: 1 } : {}}
+            transition={{ delay: 0.4, duration: 0.8 }}
+          >
+            StyleSense uses advanced artificial intelligence designed specifically for Indian skin tones, body types, and cultural preferences. Get confident with your style while keeping your data 100% private.
+          </motion.p>
+          <motion.div 
+            className="hero-buttons"
+            initial={{ y: 50, opacity: 0 }}
+            animate={heroInView ? { y: 0, opacity: 1 } : {}}
+            transition={{ delay: 0.6, duration: 0.8 }}
+          >
+            <motion.a 
+              href="/skin-tone-analysis"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <button className="cta-button">Discover Your Colors</button>
+            </motion.a>
+            <motion.button 
+              className="secondary-button"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              See How It Works
+            </motion.button>
+          </motion.div>
         </div>
-        <div className="hero-image">
-          <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?ixlib=rb-4.1.0&auto=format&fit=crop&w=687&q=80" alt="StyleSense App Preview" />
-        </div>
-      </section>
+        <motion.div 
+          className="hero-image"
+          initial={{ x: 100, opacity: 0 }}
+          animate={heroInView ? { x: 0, opacity: 1 } : {}}
+          transition={{ delay: 0.8, duration: 1 }}
+        >
+          <img 
+            src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?ixlib=rb-4.1.0&auto=format&fit=crop&w=687&q=80" 
+            alt="Indian woman using StyleSense" 
+          />
+          <motion.div 
+            className="hero-badge"
+            initial={{ scale: 0 }}
+            animate={heroInView ? { scale: 1 } : {}}
+            transition={{ delay: 1.2, type: "spring" }}
+          >
+            Made for Indian Skin Tones
+          </motion.div>
+        </motion.div>
+      </motion.section>
 
       {/* Features Section */}
       <section className="features" id="features">
         <div className="section-title">
-          <h2>Revolutionary <span style={{ background: 'linear-gradient(135deg, #FF4D89, #FF9E80)', WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent' }}>AI-Powered</span> Features</h2>
-          <p>StyleSense combines cutting-edge technology with fashion expertise to transform your style journey</p>
+          <motion.h2
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            Revolutionary <span>AI-Powered</span> Features
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
+            Designed specifically for Indian users with darker skin tones and diverse cultural preferences
+          </motion.p>
         </div>
         <div className="features-grid">
-          <div className="feature-card">
-            <div className="feature-icon">
-              <FaCamera />
-            </div>
-            <h3>Outfit Analysis</h3>
-            <p>Upload photos of your outfits and receive instant feedback on color combinations, fit, and style appropriateness.</p>
-            <span className="feature-tag">NEW</span>
-          </div>
-          <div className="feature-card">
-            <div className="feature-icon">
-              <FaPalette />
-            </div>
-            <h3>Skin Tone Matching</h3>
-            <p>Our AI detects your skin undertones and recommends the most flattering color palettes specifically for you.</p>
-          </div>
-          <div className="feature-card">
-            <div className="feature-icon">
-              <FaCalendarAlt />
-            </div>
-            <h3>Style Calendar</h3>
-            <p>Plan your outfits in advance based on weather forecasts, events, and your personal schedule.</p>
-            <span className="feature-tag">COMING SOON</span>
-          </div>
-          <div className="feature-card">
-            <div className="feature-icon">
-              <FaTshirt />
-            </div>
-            <h3>Virtual Try-On</h3>
-            <p>See how clothes will look on you before buying with our augmented reality technology.</p>
-            <span className="feature-tag">BETA</span>
-          </div>
-          <div className="feature-card">
-            <div className="feature-icon">
-              <i className="fas fa-wardrobe"></i>
-            </div>
-            <h3>Smart Wardrobe</h3>
-            <p>Catalog your clothes and get AI-generated outfit suggestions from items you already own.</p>
-          </div>
-          <div className="feature-card">
-            <div className="feature-icon">
-              <FaLock />
-            </div>
-            <h3>100% Private</h3>
-            <p>Your photos and style data never leave your device. We believe in fashion without compromise.</p>
-          </div>
+          {features.map((feature, index) => (
+            <FeatureCard 
+              key={index}
+              icon={feature.icon}
+              title={feature.title}
+              description={feature.description}
+              tag={feature.tag}
+              link={feature.link}
+            />
+          ))}
         </div>
       </section>
 
-      {/* Demo Section */}
-      <section className="demo" id="how-it-works">
+      {/* Indian User Focus Section */}
+      <section className="demo" id="indian-focus">
         <div className="demo-content">
-          <h2>How <span>StyleSense</span> Transforms Your Style</h2>
-          <p>Our proprietary AI technology analyzes multiple aspects of your outfits to provide personalized recommendations that evolve with your style journey.</p>
+          <motion.h2
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            Designed for <span>Indian Users</span> by Indians
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
+            We understand the unique challenges Indian users face with fashion and style. Our AI is trained specifically for:
+          </motion.p>
           
           <div className="demo-features">
-            <div className="demo-feature">
+            <motion.div 
+              className="demo-feature"
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              viewport={{ once: true }}
+            >
               <FaCheckCircle />
               <div>
-                <h4>Color Harmony Analysis</h4>
-                <p>Get detailed feedback on which color combinations work best for your complexion and personal aesthetic.</p>
+                <h4>Darker Skin Tones</h4>
+                <p>Specialized color analysis that works beautifully with brown and dark complexions.</p>
               </div>
-            </div>
-            <div className="demo-feature">
+            </motion.div>
+            <motion.div 
+              className="demo-feature"
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+              viewport={{ once: true }}
+            >
               <FaCheckCircle />
               <div>
-                <h4>Body Type Recommendations</h4>
-                <p>Learn which cuts and silhouettes flatter your unique body shape for maximum confidence.</p>
+                <h4>Indian Body Types</h4>
+                <p>Recommendations that consider common Indian body shapes and proportions.</p>
               </div>
-            </div>
-            <div className="demo-feature">
+            </motion.div>
+            <motion.div 
+              className="demo-feature"
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.8 }}
+              viewport={{ once: true }}
+            >
               <FaCheckCircle />
               <div>
-                <h4>Occasion-Specific Advice</h4>
-                <p>From job interviews to first dates, get tailored suggestions for any event in your calendar.</p>
+                <h4>Cultural Clothing</h4>
+                <p>Expert advice on sarees, kurtas, lehengas and fusion wear for all occasions.</p>
               </div>
-            </div>
+            </motion.div>
+            <motion.div 
+              className="demo-feature"
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 1.0 }}
+              viewport={{ once: true }}
+            >
+              <FaCheckCircle />
+              <div>
+                <h4>Regional Preferences</h4>
+                <p>Style suggestions that respect regional differences across India's diverse cultures.</p>
+              </div>
+            </motion.div>
           </div>
         </div>
-        <div className="demo-image">
-          <img src="https://images.unsplash.com/photo-1551232864-3f0890e580d9?ixlib=rb-4.1.0&auto=format&fit=crop&w=687&q=80" alt="StyleSense App Interface" />
-          <div className="demo-badge">AI-POWERED</div>
+        <motion.div 
+          className="demo-image"
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+        >
+          <img 
+            src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-4.1.0&auto=format&fit=crop&w=1025&q=80" 
+            alt="Indian women using StyleSense" 
+          />
+          <motion.div 
+            className="demo-badge"
+            initial={{ scale: 0 }}
+            whileInView={{ scale: 1 }}
+            transition={{ delay: 0.5, type: "spring", stiffness: 200 }}
+            viewport={{ once: true }}
+          >
+            MADE FOR INDIA
+          </motion.div>
+        </motion.div>
+      </section>
+
+      {/* Tech Stack Section */}
+      <section className="pricing" id="technology">
+        <div className="section-title">
+          <motion.h2
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            Cutting-Edge <span>AI Technology</span>
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
+            Powered by advanced machine learning models trained on Indian fashion data
+          </motion.p>
+        </div>
+        <div className="features-grid">
+          <FeatureCard 
+            icon={<FaPalette />}
+            title="Skin Tone Engine"
+            description="Proprietary AI trained on 50,000+ Indian skin tones for accurate color matching"
+            link="/technology"
+          />
+          <FeatureCard 
+            icon={<FaLanguage />}
+            title="Regional Language NLP"
+            description="Understands Telugu, Hindi, Tamil and more for natural style conversations"
+            link="/technology"
+          />
+          <FeatureCard 
+            icon={<FaTshirt />}
+            title="3D Body Mapping"
+            description="Creates accurate virtual models of your body for perfect fit predictions"
+            link="/technology"
+          />
+          <FeatureCard 
+            icon={<FaChartLine />}
+            title="Trend Prediction AI"
+            description="Analyzes Indian fashion trends to keep your style current"
+            link="/technology"
+          />
         </div>
       </section>
 
       {/* Testimonials */}
       <section className="testimonials" id="testimonials">
         <div className="section-title">
-          <h2>What Our <span style={{ background: 'linear-gradient(135deg, #FF4D89, #FF9E80)', WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent' }}>Users</span> Say</h2>
-          <p>Join thousands who have transformed their style confidence with StyleSense</p>
+          <motion.h2
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            What Our <span>Indian Users</span> Say
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
+            Join thousands of Indians who have transformed their style confidence
+          </motion.p>
         </div>
         <div className="testimonials-grid">
-          <div className="testimonial-card">
-            <p className="quote">"StyleSense completely changed how I dress. The color analysis showed me why certain outfits didn't work and helped me build a wardrobe that actually suits me."</p>
-            <div className="testimonial-author">
-              <div className="author-avatar">
-                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sarah J." />
-              </div>
-              <div className="author-info">
-                <h4>Sarah J.</h4>
-                <p>Marketing Executive</p>
-              </div>
-            </div>
-          </div>
-          <div className="testimonial-card">
-            <p className="quote">"I used to waste so much time deciding what to wear. Now I just check StyleSense and know I'll look my best. The privacy focus was what convinced me to try it."</p>
-            <div className="testimonial-author">
-              <div className="author-avatar">
-                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="David T." />
-              </div>
-              <div className="author-info">
-                <h4>David T.</h4>
-                <p>Software Developer</p>
-              </div>
-            </div>
-          </div>
-          <div className="testimonial-card">
-            <p className="quote">"The virtual try-on feature saved me hundreds on clothes that wouldn't have suited me. This app pays for itself in avoided fashion mistakes!"</p>
-            <div className="testimonial-author">
-              <div className="author-avatar">
-                <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Priya M." />
-              </div>
-              <div className="author-info">
-                <h4>Priya M.</h4>
-                <p>Graphic Designer</p>
-              </div>
-            </div>
-          </div>
+          {testimonials.map((testimonial, index) => (
+            <TestimonialCard 
+              key={index}
+              quote={testimonial.quote}
+              author={testimonial.author}
+              role={testimonial.role}
+              avatar={testimonial.avatar}
+            />
+          ))}
         </div>
       </section>
 
       {/* Pricing */}
       <section className="pricing" id="pricing">
         <div className="section-title">
-          <h2>Simple, <span style={{ background: 'linear-gradient(135deg, #FF4D89, #FF9E80)', WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent' }}>Transparent</span> Pricing</h2>
-          <p>Choose the plan that fits your style journey</p>
+          <motion.h2
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            Simple, <span>Transparent</span> Pricing
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
+            Affordable plans designed for Indian users
+          </motion.p>
         </div>
         <div className="pricing-grid">
-          <div className="pricing-card">
-            <h3>Basic</h3>
-            <div className="price">$0<span>/month</span></div>
-            <div className="pricing-features">
-              <div className="pricing-feature">
-                <FaCheck />
-                <p>5 outfit analyses per month</p>
-              </div>
-              <div className="pricing-feature">
-                <FaCheck />
-                <p>Basic color recommendations</p>
-              </div>
-              <div className="pricing-feature">
-                <FaCheck />
-                <p>Style journal</p>
-              </div>
-            </div>
-            <button className="pricing-button">Get Started</button>
-          </div>
-          <div className="pricing-card popular">
-            <div className="popular-tag">MOST POPULAR</div>
-            <h3>Premium</h3>
-            <div className="price">$9.99<span>/month</span></div>
-            <div className="pricing-features">
-              <div className="pricing-feature">
-                <FaCheck />
-                <p>Unlimited outfit analyses</p>
-              </div>
-              <div className="pricing-feature">
-                <FaCheck />
-                <p>Advanced skin tone matching</p>
-              </div>
-              <div className="pricing-feature">
-                <FaCheck />
-                <p>Virtual try-on (AR)</p>
-              </div>
-              <div className="pricing-feature">
-                <FaCheck />
-                <p>Smart wardrobe organizer</p>
-              </div>
-              <div className="pricing-feature">
-                <FaCheck />
-                <p>Priority support</p>
-              </div>
-            </div>
-            <button className="pricing-button">Choose Premium</button>
-          </div>
-          <div className="pricing-card">
-            <h3>Professional</h3>
-            <div className="price">$24.99<span>/month</span></div>
-            <div className="pricing-features">
-              <div className="pricing-feature">
-                <FaCheck />
-                <p>Everything in Premium</p>
-              </div>
-              <div className="pricing-feature">
-                <FaCheck />
-                <p>1-on-1 style consultation</p>
-              </div>
-              <div className="pricing-feature">
-                <FaCheck />
-                <p>Personal shopping assistant</p>
-              </div>
-              <div className="pricing-feature">
-                <FaCheck />
-                <p>Exclusive trend reports</p>
-              </div>
-              <div className="pricing-feature">
-                <FaCheck />
-                <p>Business expense tracking</p>
-              </div>
-            </div>
-            <button className="pricing-button">Go Professional</button>
-          </div>
+          {pricingPlans.map((plan, index) => (
+            <PricingCard 
+              key={index}
+              title={plan.title}
+              price={plan.price}
+              features={plan.features}
+              popular={plan.popular}
+              buttonText={plan.buttonText}
+            />
+          ))}
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="cta">
+      <motion.section 
+        className="cta"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: true }}
+      >
         <div className="cta-content">
-          <h2>Ready to Transform Your Style?</h2>
-          <p>Join over 250,000 users who have discovered their perfect look with StyleSense. Start your 7-day free trial today—no credit card required.</p>
-          <button className="cta-button">Start Your Free Trial</button>
+          <h2>Ready to Transform Your Indian Style?</h2>
+          <p>Join over 250,000 Indian users who discovered their perfect look with StyleSense. Start your 7-day free trial today—no credit card required.</p>
+          <motion.button 
+            className="cta-button"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            Start Your Free Trial
+          </motion.button>
         </div>
-      </section>
+      </motion.section>
 
       {/* Footer */}
       <footer>
         <div className="footer-grid">
           <div className="footer-col">
             <h3>StyleSense</h3>
-            <p>Your personal AI fashion assistant, helping you discover and refine your unique style with confidence.</p>
+            <p>India's first AI personal style assistant, helping you discover and refine your unique style with confidence.</p>
             <div className="social-links">
-              <a href="#"><FaInstagram /></a>
-              <a href="#"><FaTwitter /></a>
-              <a href="#"><FaPinterest /></a>
-              <a href="#"><FaTiktok /></a>
+              <motion.a 
+                href="#"
+                whileHover={{ y: -5 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <FaInstagram />
+              </motion.a>
+              <motion.a 
+                href="#"
+                whileHover={{ y: -5 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <FaTwitter />
+              </motion.a>
+              <motion.a 
+                href="#"
+                whileHover={{ y: -5 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <FaPinterest />
+              </motion.a>
+              <motion.a 
+                href="#"
+                whileHover={{ y: -5 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                <FaTiktok />
+              </motion.a>
             </div>
           </div>
           <div className="footer-col">
             <h3>Features</h3>
             <ul>
-              <li><a href="#">Outfit Analysis</a></li>
-              <li><a href="#">Color Matching</a></li>
+              <li><a href="#">Skin Tone Analysis</a></li>
               <li><a href="#">Virtual Try-On</a></li>
+              <li><a href="#">Regional Languages</a></li>
+              <li><a href="#">AI Style Assistant</a></li>
               <li><a href="#">Smart Wardrobe</a></li>
-              <li><a href="#">Style Calendar</a></li>
+            </ul>
+          </div>
+          <div className="footer-col">
+            <h3>For Indian Users</h3>
+            <ul>
+              <li><a href="#">Darker Skin Tones</a></li>
+              <li><a href="#">Saree & Kurta Guide</a></li>
+              <li><a href="#">Festival Outfits</a></li>
+              <li><a href="#">Regional Styles</a></li>
+              <li><a href="#">Affordable Fashion</a></li>
             </ul>
           </div>
           <div className="footer-col">
             <h3>Company</h3>
             <ul>
               <li><a href="#">About Us</a></li>
-              <li><a href="#">Careers</a></li>
               <li><a href="#">Privacy Policy</a></li>
               <li><a href="#">Terms of Service</a></li>
               <li><a href="#">Contact Us</a></li>
-            </ul>
-          </div>
-          <div className="footer-col">
-            <h3>Resources</h3>
-            <ul>
-              <li><a href="#">Blog</a></li>
-              <li><a href="#">Style Guides</a></li>
-              <li><a href="#">FAQ</a></li>
-              <li><a href="#">Support</a></li>
-              <li><a href="#">Developer API</a></li>
+              <li><a href="#">Careers</a></li>
             </ul>
           </div>
         </div>
         <div className="footer-bottom">
-          <p>&copy; 2023 StyleSense. All rights reserved. AI fashion for everyone.</p>
+          <p>&copy; 2023 StyleSense. All rights reserved. AI fashion for Indian users.</p>
         </div>
       </footer>
 
       {/* CSS Styles */}
-      <style jsx>{`
+      <style jsx global>{`
         :root {
           --primary: #FF4D89;
           --secondary: #FF9E80;
@@ -311,6 +709,7 @@ const StyleSense = () => {
           --darker: #16213E;
           --light: #F8F8F8;
           --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+          --indian-gradient: linear-gradient(135deg, #FF9933, #138808, #000080);
         }
         
         * {
@@ -324,6 +723,7 @@ const StyleSense = () => {
           background-color: var(--dark);
           color: var(--light);
           overflow-x: hidden;
+          scroll-behavior: smooth;
         }
         
         /* Header */
@@ -370,11 +770,7 @@ const StyleSense = () => {
           transition: all 0.3s ease;
           position: relative;
         }
-        .hero {
-  padding-top: 80px;  /* Add this line */
-  height: 100vh;
-  /* ... rest of your styles ... */
-}
+        
         nav a:hover {
           color: var(--primary);
         }
@@ -397,17 +793,19 @@ const StyleSense = () => {
         .cta-button {
           background: var(--gradient);
           color: white;
-          padding: 0.6rem 1.5rem;
+          padding: 0.8rem 1.8rem;
           border-radius: 50px;
           font-weight: 600;
           transition: all 0.3s ease;
           border: none;
           cursor: pointer;
+          font-size: 1rem;
+          box-shadow: 0 4px 15px rgba(255, 77, 137, 0.3);
         }
         
         .cta-button:hover {
           transform: translateY(-3px);
-          box-shadow: 0 10px 20px rgba(255, 77, 137, 0.3);
+          box-shadow: 0 10px 20px rgba(255, 77, 137, 0.4);
         }
         
         /* Hero Section */
@@ -418,6 +816,7 @@ const StyleSense = () => {
           padding: 0 5%;
           position: relative;
           overflow: hidden;
+          padding-top: 80px;
         }
         
         .hero::before {
@@ -434,16 +833,18 @@ const StyleSense = () => {
         
         .hero-content {
           max-width: 600px;
+          z-index: 2;
         }
         
         .hero h1 {
           font-size: 3.5rem;
           margin-bottom: 1.5rem;
           line-height: 1.2;
+          font-weight: 700;
         }
         
         .hero h1 span {
-          background: var(--gradient);
+          background: var(--indian-gradient);
           -webkit-background-clip: text;
           background-clip: text;
           color: transparent;
@@ -470,6 +871,8 @@ const StyleSense = () => {
           font-weight: 600;
           transition: all 0.3s ease;
           border: 2px solid var(--primary);
+          cursor: pointer;
+          font-size: 1rem;
         }
         
         .secondary-button:hover {
@@ -492,6 +895,25 @@ const StyleSense = () => {
           width: 100%;
           height: auto;
           display: block;
+          transition: transform 0.5s ease;
+        }
+        
+        .hero-image:hover img {
+          transform: scale(1.03);
+        }
+        
+        .hero-badge {
+          position: absolute;
+          bottom: 20px;
+          left: 50%;
+          transform: translateX(-50%);
+          background: var(--indian-gradient);
+          color: white;
+          padding: 0.8rem 1.5rem;
+          border-radius: 50px;
+          font-weight: 600;
+          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+          animation: pulse 2s infinite;
         }
         
         /* Features Section */
@@ -508,12 +930,21 @@ const StyleSense = () => {
         .section-title h2 {
           font-size: 2.5rem;
           margin-bottom: 1rem;
+          font-weight: 700;
+        }
+        
+        .section-title h2 span {
+          background: var(--gradient);
+          -webkit-background-clip: text;
+          background-clip: text;
+          color: transparent;
         }
         
         .section-title p {
           max-width: 700px;
           margin: 0 auto;
           opacity: 0.8;
+          font-size: 1.1rem;
         }
         
         .features-grid {
@@ -529,12 +960,50 @@ const StyleSense = () => {
           padding: 2rem;
           transition: all 0.3s ease;
           border: 1px solid rgba(255, 255, 255, 0.1);
+          position: relative;
+          overflow: hidden;
+          text-decoration: none;
+          color: inherit;
+        }
+        
+        .feature-card::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: var(--gradient);
+          opacity: 0;
+          transition: opacity 0.3s ease;
+          z-index: -1;
         }
         
         .feature-card:hover {
           transform: translateY(-10px);
-          background: rgba(255, 255, 255, 0.1);
           box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .feature-card:hover::before {
+          opacity: 0.1;
+        }
+        
+        .feature-card::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 3px;
+          background: var(--gradient);
+          transform: scaleX(0);
+          transform-origin: right;
+          transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover::after {
+          transform: scaleX(1);
+          transform-origin: left;
         }
         
         .feature-icon {
@@ -548,11 +1017,17 @@ const StyleSense = () => {
           background: var(--gradient);
           color: white;
           font-size: 1.5rem;
+          transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover .feature-icon {
+          transform: rotate(15deg) scale(1.1);
         }
         
         .feature-card h3 {
           font-size: 1.5rem;
           margin-bottom: 1rem;
+          font-weight: 600;
         }
         
         .feature-card p {
@@ -569,6 +1044,9 @@ const StyleSense = () => {
           border-radius: 50px;
           font-size: 0.8rem;
           font-weight: 600;
+          position: absolute;
+          top: 15px;
+          right: 15px;
         }
         
         /* Demo Section */
@@ -587,10 +1065,11 @@ const StyleSense = () => {
           font-size: 2.5rem;
           margin-bottom: 1.5rem;
           line-height: 1.3;
+          font-weight: 700;
         }
         
         .demo-content h2 span {
-          background: var(--gradient);
+          background: var(--indian-gradient);
           -webkit-background-clip: text;
           background-clip: text;
           color: transparent;
@@ -600,6 +1079,7 @@ const StyleSense = () => {
           opacity: 0.9;
           margin-bottom: 2rem;
           line-height: 1.6;
+          font-size: 1.1rem;
         }
         
         .demo-features {
@@ -611,17 +1091,26 @@ const StyleSense = () => {
           align-items: flex-start;
           gap: 1rem;
           margin-bottom: 1.5rem;
+          padding: 1rem;
+          border-radius: 10px;
+          transition: all 0.3s ease;
         }
         
-        .demo-feature i {
+        .demo-feature:hover {
+          background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .demo-feature svg {
           color: var(--primary);
-          font-size: 1.2rem;
+          font-size: 1.5rem;
           margin-top: 0.2rem;
+          flex-shrink: 0;
         }
         
         .demo-feature h4 {
           font-size: 1.1rem;
           margin-bottom: 0.5rem;
+          font-weight: 600;
         }
         
         .demo-feature p {
@@ -640,18 +1129,23 @@ const StyleSense = () => {
           border-radius: 20px;
           box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
           border: 5px solid rgba(255, 255, 255, 0.1);
+          transition: transform 0.5s ease;
+        }
+        
+        .demo-image:hover img {
+          transform: scale(1.02);
         }
         
         .demo-badge {
           position: absolute;
           top: -20px;
           right: -20px;
-          background: var(--gradient);
+          background: var(--indian-gradient);
           color: white;
           padding: 1rem 1.5rem;
           border-radius: 10px;
           font-weight: 600;
-          box-shadow: 0 10px 20px rgba(255, 77, 137, 0.3);
+          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
           animation: pulse 2s infinite;
         }
         
@@ -697,6 +1191,12 @@ const StyleSense = () => {
           border-radius: 15px;
           padding: 2rem;
           border: 1px solid rgba(255, 255, 255, 0.2);
+          transition: all 0.3s ease;
+        }
+        
+        .testimonial-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }
         
         .testimonial-card .quote {
@@ -717,17 +1217,24 @@ const StyleSense = () => {
           height: 50px;
           border-radius: 50%;
           overflow: hidden;
+          flex-shrink: 0;
         }
         
         .author-avatar img {
           width: 100%;
           height: 100%;
           object-fit: cover;
+          transition: transform 0.5s ease;
+        }
+        
+        .testimonial-card:hover .author-avatar img {
+          transform: scale(1.1);
         }
         
         .author-info h4 {
           font-size: 1.1rem;
           margin-bottom: 0.2rem;
+          font-weight: 600;
         }
         
         .author-info p {
@@ -758,9 +1265,35 @@ const StyleSense = () => {
           overflow: hidden;
         }
         
+        .pricing-card::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: var(--gradient);
+          opacity: 0;
+          transition: opacity 0.3s ease;
+          z-index: -1;
+        }
+        
+        .pricing-card:hover::before {
+          opacity: 0.1;
+        }
+        
         .pricing-card.popular {
           border: 1px solid var(--primary);
           transform: scale(1.05);
+        }
+        
+        .pricing-card:hover {
+          transform: translateY(-10px);
+          box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .pricing-card.popular:hover {
+          transform: scale(1.05) translateY(-10px);
         }
         
         .popular-tag {
@@ -773,11 +1306,13 @@ const StyleSense = () => {
           border-radius: 50px;
           font-size: 0.8rem;
           font-weight: 600;
+          transform: rotate(15deg);
         }
         
         .pricing-card h3 {
           font-size: 1.8rem;
           margin-bottom: 1rem;
+          font-weight: 600;
         }
         
         .price {
@@ -806,8 +1341,13 @@ const StyleSense = () => {
           margin-bottom: 0.8rem;
         }
         
-        .pricing-feature i {
+        .pricing-feature svg {
           color: var(--primary);
+          flex-shrink: 0;
+        }
+        
+        .pricing-feature p {
+          opacity: 0.9;
         }
         
         .pricing-button {
@@ -817,11 +1357,13 @@ const StyleSense = () => {
           border-radius: 50px;
           font-weight: 600;
           transition: all 0.3s ease;
+          cursor: pointer;
         }
         
         .pricing-card.popular .pricing-button {
           background: var(--gradient);
           color: white;
+          box-shadow: 0 4px 15px rgba(255, 77, 137, 0.3);
         }
         
         .pricing-card:not(.popular) .pricing-button {
@@ -832,7 +1374,7 @@ const StyleSense = () => {
         
         .pricing-card.popular .pricing-button:hover {
           transform: translateY(-3px);
-          box-shadow: 0 10px 20px rgba(255, 77, 137, 0.3);
+          box-shadow: 0 10px 20px rgba(255, 77, 137, 0.4);
         }
         
         .pricing-card:not(.popular) .pricing-button:hover {
@@ -843,7 +1385,7 @@ const StyleSense = () => {
         .cta {
           padding: 8rem 5%;
           text-align: center;
-          background: var(--gradient);
+          background: var(--indian-gradient);
           position: relative;
           overflow: hidden;
         }
@@ -871,6 +1413,7 @@ const StyleSense = () => {
           font-size: 2.8rem;
           margin-bottom: 1.5rem;
           line-height: 1.3;
+          font-weight: 700;
         }
         
         .cta p {
@@ -898,6 +1441,7 @@ const StyleSense = () => {
           margin-bottom: 1.5rem;
           position: relative;
           display: inline-block;
+          font-weight: 600;
         }
         
         .footer-col h3::after {
@@ -922,6 +1466,7 @@ const StyleSense = () => {
           color: rgba(255, 255, 255, 0.7);
           text-decoration: none;
           transition: all 0.3s ease;
+          display: inline-block;
         }
         
         .footer-col a:hover {
