@@ -5,7 +5,10 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Upload from './components/Upload';
-import Dashboard from './pages/Dashboard'; // Only this one!
+ // Only this one!
+import SkinToneAnalysis from './components/SkinToneAnalysis';
+import VirtualTryOn from './components/VirtualTryOn';
+
 
 
 function App() {
@@ -14,7 +17,9 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+         <Route path="/skin-tone-analysis" element={<SkinToneAnalysis />} />
+         <Route path="/virtual-tryon" element={<VirtualTryOn />} />
+        
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/upload" element={<Upload />} />

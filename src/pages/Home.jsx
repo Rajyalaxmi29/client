@@ -107,26 +107,28 @@ const StyleSense = () => {
 
   // Enhanced features array with all requested features
   const features = [
-    {
-      icon: <FaCamera />,
-      title: "AI Skin Tone Analysis",
-      description: "Get personalized color recommendations based on your unique Indian skin tone. We specialize in darker complexions.",
-      tag: "BEST SELLER",
-      link: "/skin-tone-analysis"
-    },
+    // In the features array in Home.jsx
+{
+  icon: <FaCamera />,
+  title: "AI Skin Tone Analysis",
+  description: "Get personalized color recommendations based on your unique Indian skin tone. We specialize in darker complexions.",
+  tag: "BEST SELLER",
+  link: "/skin-tone-analysis" // Update this line
+},
     {
       icon: <FaPalette />,
       title: "AI Color Palette Generator",
       description: "Discover the perfect colors that complement your skin tone for any occasion.",
       link: "/color-palette"
     },
-    {
-      icon: <FaTshirt />,
-      title: "Virtual Try-On (AR)",
-      description: "See how clothes, jewelry and hairstyles look on you before buying with our augmented reality technology.",
-      tag: "NEW",
-      link: "/virtual-tryon"
-    },
+    // In Home.jsx features array (~line 50)
+{
+  icon: <FaTshirt />,
+  title: "Virtual Try-On (AR)",
+  description: "See how clothes, jewelry and hairstyles look on you before buying with our augmented reality technology.",
+  tag: "NEW",
+  link: "/virtual-tryon" // Add this line
+},
     {
       icon: <FaRobot />,
       title: "AI Style Assistant",
