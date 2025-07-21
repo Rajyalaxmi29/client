@@ -16,7 +16,7 @@ export default function Navbar() {
 
   const navItems = [
     { path: "/", name: "Home" },
-    { path: "/skin-tone-analysis", name: "Skin Analysis", icon: <FaPalette /> },
+    { path: "/skin-analyzer", name: "Skin Analysis", icon: <FaPalette /> },
     { path: "/virtual-tryon", name: "Virtual Try-On", icon: <FaCamera /> },
     { path: "/community", name: "Community", icon: <FaUsers /> },
     { path: "/profile", name: "My Style", icon: <FaUserCircle /> }
