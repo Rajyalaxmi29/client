@@ -1,40 +1,48 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { 
   FaCamera, FaPalette, FaCalendarAlt, FaTshirt, FaLock, 
   FaCheckCircle, FaCheck, FaInstagram, FaTwitter, FaPinterest, 
   FaTiktok, FaRobot, FaLanguage, FaSmile, FaGamepad, FaShoppingBag,
   FaUsers, FaHeart, FaComments, FaCloudSun, FaUserShield, FaLeaf,
-  FaGem, FaMagic, FaMobileAlt, FaChartLine
+  FaGem, FaMagic, FaMobileAlt, FaChartLine, FaBars, FaTimes
 } from 'react-icons/fa';
 import { useInView } from 'react-intersection-observer';
 
-const FeatureCard = ({ icon, title, description, tag, link }) => {
+// FeatureCard component with availability handling
+const FeatureCard = ({ icon, title, description, tag, link, isAvailable, id }) => {
   const [ref, inView] = useInView({
     threshold: 0.3,
     triggerOnce: true
   });
 
+  const effectiveLink = isAvailable ? link : "#";
+  const effectiveTag = isAvailable ? tag : (tag ? `${tag} | COMING SOON` : "COMING SOON");
+
   return (
     <motion.a
-      href={link || "#"}
+      href={effectiveLink}
       ref={ref}
+      id={id}
       initial={{ opacity: 0, y: 50 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.6 }}
-      className="feature-card"
+      className={`feature-card ${!isAvailable ? 'coming-soon' : ''}`}
       whileHover={{ y: -10 }}
+      onClick={(e) => !isAvailable && e.preventDefault()}
+      title={!isAvailable ? "Coming Soon" : ""}
     >
       <div className="feature-icon">
         {icon}
       </div>
       <h3>{title}</h3>
       <p>{description}</p>
-      {tag && <span className="feature-tag">{tag}</span>}
+      {effectiveTag && <span className="feature-tag">{effectiveTag}</span>}
     </motion.a>
   );
 };
 
+// PricingCard component
 const PricingCard = ({ title, price, features, popular, buttonText }) => {
   const [ref, inView] = useInView({
     threshold: 0.3,
@@ -71,6 +79,7 @@ const PricingCard = ({ title, price, features, popular, buttonText }) => {
   );
 };
 
+// TestimonialCard component
 const TestimonialCard = ({ quote, author, role, avatar }) => {
   const [ref, inView] = useInView({
     threshold: 0.3,
@@ -99,47 +108,81 @@ const TestimonialCard = ({ quote, author, role, avatar }) => {
   );
 };
 
+// Main StyleSense component
 const StyleSense = () => {
-  const [heroRef, heroInView] = useInView({
-    threshold: 0.5,
-    triggerOnce: true
-  });
+  const [heroRef, heroInView] = useInView({ threshold: 0.5, triggerOnce: true });
+  const [activeSection, setActiveSection] = useState('home');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
-  // Enhanced features array with all requested features
+  // Track scroll position for header effect
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Smooth scroll function
+  const scrollToSection = (sectionId) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+      setActiveSection(sectionId);
+      setMobileMenuOpen(false);
+    }
+  };
+
+  // Define available features for navigation
+  const availableFeatures = [
+    "skin-tone",
+    "color-palette",
+    "virtual-tryon",
+    "style-calendar"
+  ];
+
+  // Features array with all requested features
   const features = [
-    // In the features array in Home.jsx
-{
-  icon: <FaCamera />,
-  title: "AI Skin Tone Analysis",
-  description: "Get personalized color recommendations based on your unique Indian skin tone. We specialize in darker complexions.",
-  tag: "BEST SELLER",
-  link: "/skin-tone-analysis" // Update this line
-},
     {
+      id: "skin-tone",
+      icon: <FaCamera />,
+      title: "AI Skin Tone Analysis",
+      description: "Get personalized color recommendations based on your unique Indian skin tone. We specialize in darker complexions.",
+      tag: "BEST SELLER",
+      link: "/skin-analyzer",
+      isAvailable: true
+    },
+    {
+      id: "color-palette",
       icon: <FaPalette />,
       title: "AI Color Palette Generator",
       description: "Discover the perfect colors that complement your skin tone for any occasion.",
-      link: "/color-palette"
+      link: "/color-palette",
+      isAvailable: true
     },
-    // In Home.jsx features array (~line 50)
-{
-  icon: <FaTshirt />,
-  title: "Virtual Try-On (AR)",
-  description: "See how clothes, jewelry and hairstyles look on you before buying with our augmented reality technology.",
-  tag: "NEW",
-  link: "/virtual-tryon" // Add this line
-},
+    {
+      id: "virtual-tryon",
+      icon: <FaTshirt />,
+      title: "Virtual Try-On (AR)",
+      description: "See how clothes, jewelry and hairstyles look on you before buying with our augmented reality technology.",
+      tag: "NEW",
+      link: "/virtual-tryon",
+      isAvailable: true
+    },
+    {
+      id: "style-calendar",
+      icon: <FaCalendarAlt />,
+      title: "Smart Style Calendar",
+      description: "Plan outfits based on weather, events and your schedule with AI recommendations.",
+      link: "/style-calendar",
+      isAvailable: true
+    },
     {
       icon: <FaRobot />,
       title: "AI Style Assistant",
       description: "Chat with our AI stylist in Telugu, Hindi or English for personalized fashion advice.",
       link: "/style-assistant"
-    },
-    {
-      icon: <FaCalendarAlt />,
-      title: "Smart Style Calendar",
-      description: "Plan outfits based on weather, events and your schedule with AI recommendations.",
-      link: "/style-calendar"
     },
     {
       icon: <FaLock />,
@@ -295,8 +338,145 @@ const StyleSense = () => {
 
   return (
     <div className="stylesense-container">
+      {/* Header */}
+      <header className={`header ${scrolled ? 'scrolled' : ''}`}>
+        <div className="header-content">
+          <a href="#" className="logo" onClick={(e) => { e.preventDefault(); scrollToSection('home'); }}>
+            Style<span>Sense</span>
+          </a>
+          
+          {/* Desktop Navigation */}
+          <nav className={`desktop-nav ${mobileMenuOpen ? 'mobile-open' : ''}`}>
+            <ul>
+              <li>
+                <a 
+                  className={activeSection === 'home' ? 'active' : ''}
+                  onClick={(e) => { e.preventDefault(); scrollToSection('home'); }}
+                >
+                  Home
+                </a>
+              </li>
+              <li>
+                <a 
+                  className={activeSection === 'features' ? 'active' : ''}
+                  onClick={(e) => { e.preventDefault(); scrollToSection('features'); }}
+                >
+                  Features
+                </a>
+              </li>
+              <li>
+                <a 
+                  className={activeSection === 'skin-tone' ? 'active' : ''}
+                  onClick={(e) => { e.preventDefault(); scrollToSection('skin-tone'); }}
+                >
+                  Skin Tone
+                </a>
+              </li>
+              <li>
+                <a 
+                  className={activeSection === 'virtual-tryon' ? 'active' : ''}
+                  onClick={(e) => { e.preventDefault(); scrollToSection('virtual-tryon'); }}
+                >
+                  Virtual Try-On
+                </a>
+              </li>
+              <li>
+                <a 
+                  className={activeSection === 'style-calendar' ? 'active' : ''}
+                  onClick={(e) => { e.preventDefault(); scrollToSection('style-calendar'); }}
+                >
+                  Style Calendar
+                </a>
+              </li>
+              <li>
+                <a 
+                  className={activeSection === 'pricing' ? 'active' : ''}
+                  onClick={(e) => { e.preventDefault(); scrollToSection('pricing'); }}
+                >
+                  Pricing
+                </a>
+              </li>
+            </ul>
+          </nav>
+          
+          <div className="header-buttons">
+            <motion.button 
+              className="cta-button"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => scrollToSection('pricing')}
+            >
+              Get Started
+            </motion.button>
+            
+            {/* Mobile Menu Toggle */}
+            <div 
+              className="mobile-menu-toggle" 
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              {mobileMenuOpen ? <FaTimes /> : <FaBars />}
+            </div>
+          </div>
+        </div>
+        
+        {/* Mobile Navigation */}
+        <nav className={`mobile-nav ${mobileMenuOpen ? 'open' : ''}`}>
+          <ul>
+            <li>
+              <a 
+                className={activeSection === 'home' ? 'active' : ''}
+                onClick={(e) => { e.preventDefault(); scrollToSection('home'); setMobileMenuOpen(false); }}
+              >
+                Home
+              </a>
+            </li>
+            <li>
+              <a 
+                className={activeSection === 'features' ? 'active' : ''}
+                onClick={(e) => { e.preventDefault(); scrollToSection('features'); setMobileMenuOpen(false); }}
+              >
+                Features
+              </a>
+            </li>
+            <li>
+              <a 
+                className={activeSection === 'skin-tone' ? 'active' : ''}
+                onClick={(e) => { e.preventDefault(); scrollToSection('skin-tone'); setMobileMenuOpen(false); }}
+              >
+                Skin Tone
+              </a>
+            </li>
+            <li>
+              <a 
+                className={activeSection === 'virtual-tryon' ? 'active' : ''}
+                onClick={(e) => { e.preventDefault(); scrollToSection('virtual-tryon'); setMobileMenuOpen(false); }}
+              >
+                Virtual Try-On
+              </a>
+            </li>
+            <li>
+              <a 
+                className={activeSection === 'style-calendar' ? 'active' : ''}
+                onClick={(e) => { e.preventDefault(); scrollToSection('style-calendar'); setMobileMenuOpen(false); }}
+              >
+                Style Calendar
+              </a>
+            </li>
+            <li>
+              <a 
+                className={activeSection === 'pricing' ? 'active' : ''}
+                onClick={(e) => { e.preventDefault(); scrollToSection('pricing'); setMobileMenuOpen(false); }}
+              >
+                Pricing
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </header>
+
       {/* Hero Section */}
       <motion.section 
+        id="home"
         ref={heroRef}
         initial={{ opacity: 0 }}
         animate={heroInView ? { opacity: 1 } : {}}
@@ -325,9 +505,10 @@ const StyleSense = () => {
             transition={{ delay: 0.6, duration: 0.8 }}
           >
             <motion.a 
-              href="/skin-tone-analysis"
+              href="#skin-tone"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              onClick={(e) => { e.preventDefault(); scrollToSection('skin-tone'); }}
             >
               <button className="cta-button">Discover Your Colors</button>
             </motion.a>
@@ -335,6 +516,7 @@ const StyleSense = () => {
               className="secondary-button"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              onClick={() => scrollToSection('features')}
             >
               See How It Works
             </motion.button>
@@ -385,11 +567,13 @@ const StyleSense = () => {
           {features.map((feature, index) => (
             <FeatureCard 
               key={index}
+              id={feature.id}
               icon={feature.icon}
               title={feature.title}
               description={feature.description}
               tag={feature.tag}
               link={feature.link}
+              isAvailable={availableFeatures.includes(feature.id)}
             />
           ))}
         </div>
@@ -404,7 +588,7 @@ const StyleSense = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            Designed for <span>Indian Users</span> by Indians
+            Designed for <span>Indian Users</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, x: -50 }}
@@ -519,24 +703,28 @@ const StyleSense = () => {
             title="Skin Tone Engine"
             description="Proprietary AI trained on 50,000+ Indian skin tones for accurate color matching"
             link="/technology"
+            isAvailable={false}
           />
           <FeatureCard 
             icon={<FaLanguage />}
             title="Regional Language NLP"
             description="Understands Telugu, Hindi, Tamil and more for natural style conversations"
             link="/technology"
+            isAvailable={false}
           />
           <FeatureCard 
             icon={<FaTshirt />}
             title="3D Body Mapping"
             description="Creates accurate virtual models of your body for perfect fit predictions"
             link="/technology"
+            isAvailable={false}
           />
           <FeatureCard 
             icon={<FaChartLine />}
             title="Trend Prediction AI"
             description="Analyzes Indian fashion trends to keep your style current"
             link="/technology"
+            isAvailable={false}
           />
         </div>
       </section>
@@ -623,6 +811,7 @@ const StyleSense = () => {
             className="cta-button"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            onClick={() => scrollToSection('pricing')}
           >
             Start Your Free Trial
           </motion.button>
@@ -669,21 +858,21 @@ const StyleSense = () => {
           <div className="footer-col">
             <h3>Features</h3>
             <ul>
-              <li><a href="#">Skin Tone Analysis</a></li>
-              <li><a href="#">Virtual Try-On</a></li>
-              <li><a href="#">Regional Languages</a></li>
-              <li><a href="#">AI Style Assistant</a></li>
-              <li><a href="#">Smart Wardrobe</a></li>
+              <li><a href="#skin-tone" onClick={(e) => { e.preventDefault(); scrollToSection('skin-tone'); }}>Skin Tone Analysis</a></li>
+              <li><a href="#virtual-tryon" onClick={(e) => { e.preventDefault(); scrollToSection('virtual-tryon'); }}>Virtual Try-On</a></li>
+              <li><a href="#features" onClick={(e) => { e.preventDefault(); scrollToSection('features'); }}>All Features</a></li>
+              <li><a href="#style-calendar" onClick={(e) => { e.preventDefault(); scrollToSection('style-calendar'); }}>Style Calendar</a></li>
+              <li><a href="#pricing" onClick={(e) => { e.preventDefault(); scrollToSection('pricing'); }}>Pricing</a></li>
             </ul>
           </div>
           <div className="footer-col">
             <h3>For Indian Users</h3>
             <ul>
-              <li><a href="#">Darker Skin Tones</a></li>
-              <li><a href="#">Saree & Kurta Guide</a></li>
-              <li><a href="#">Festival Outfits</a></li>
-              <li><a href="#">Regional Styles</a></li>
-              <li><a href="#">Affordable Fashion</a></li>
+              <li><a href="#indian-focus" onClick={(e) => { e.preventDefault(); scrollToSection('indian-focus'); }}>Darker Skin Tones</a></li>
+              <li><a href="#features" onClick={(e) => { e.preventDefault(); scrollToSection('features'); }}>Saree & Kurta Guide</a></li>
+              <li><a href="#style-calendar" onClick={(e) => { e.preventDefault(); scrollToSection('style-calendar'); }}>Festival Outfits</a></li>
+              <li><a href="#indian-focus" onClick={(e) => { e.preventDefault(); scrollToSection('indian-focus'); }}>Regional Styles</a></li>
+              <li><a href="#pricing" onClick={(e) => { e.preventDefault(); scrollToSection('pricing'); }}>Affordable Fashion</a></li>
             </ul>
           </div>
           <div className="footer-col">
@@ -712,6 +901,7 @@ const StyleSense = () => {
           --light: #F8F8F8;
           --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
           --indian-gradient: linear-gradient(135deg, #FF9933, #138808, #000080);
+          --header-height: 80px;
         }
         
         * {
@@ -726,10 +916,11 @@ const StyleSense = () => {
           color: var(--light);
           overflow-x: hidden;
           scroll-behavior: smooth;
+          scroll-padding-top: var(--header-height);
         }
         
         /* Header */
-        header {
+        .header {
           background: rgba(26, 26, 46, 0.9);
           backdrop-filter: blur(10px);
           position: fixed;
@@ -740,6 +931,21 @@ const StyleSense = () => {
           justify-content: space-between;
           align-items: center;
           border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+          transition: all 0.3s ease;
+          height: var(--header-height);
+        }
+        
+        .header.scrolled {
+          background: rgba(26, 26, 46, 0.95);
+          box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+          height: 70px;
+        }
+        
+        .header-content {
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
         }
         
         .logo {
@@ -771,10 +977,27 @@ const StyleSense = () => {
           font-weight: 500;
           transition: all 0.3s ease;
           position: relative;
+          font-size: 1rem;
+          padding: 0.5rem 0;
         }
         
         nav a:hover {
           color: var(--primary);
+        }
+        
+        nav a.active {
+          color: var(--primary);
+        }
+        
+        nav a.active::after {
+          content: '';
+          position: absolute;
+          width: 100%;
+          height: 2px;
+          bottom: 0;
+          left: 0;
+          background: var(--gradient);
+          transition: width 0.3s ease;
         }
         
         nav a::after {
@@ -782,7 +1005,7 @@ const StyleSense = () => {
           position: absolute;
           width: 0;
           height: 2px;
-          bottom: -5px;
+          bottom: 0;
           left: 0;
           background: var(--gradient);
           transition: width 0.3s ease;
@@ -810,6 +1033,61 @@ const StyleSense = () => {
           box-shadow: 0 10px 20px rgba(255, 77, 137, 0.4);
         }
         
+        .header-buttons {
+          display: flex;
+          align-items: center;
+          gap: 1.5rem;
+        }
+        
+        .mobile-menu-toggle {
+          display: none;
+          font-size: 1.5rem;
+          cursor: pointer;
+          color: white;
+        }
+        
+        .mobile-nav {
+          display: none;
+          background: var(--darker);
+          position: absolute;
+          top: var(--header-height);
+          left: 0;
+          width: 100%;
+          padding: 1rem;
+          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+          z-index: 999;
+          transform: translateY(-150%);
+          transition: transform 0.3s ease;
+        }
+        
+        .mobile-nav.open {
+          transform: translateY(0);
+        }
+        
+        .mobile-nav ul {
+          list-style: none;
+        }
+        
+        .mobile-nav li {
+          margin-bottom: 1rem;
+        }
+        
+        .mobile-nav a {
+          color: var(--light);
+          text-decoration: none;
+          font-size: 1.1rem;
+          display: block;
+          padding: 0.8rem 1rem;
+          border-radius: 8px;
+          transition: all 0.3s ease;
+        }
+        
+        .mobile-nav a:hover,
+        .mobile-nav a.active {
+          background: rgba(255, 255, 255, 0.1);
+          color: var(--primary);
+        }
+        
         /* Hero Section */
         .hero {
           height: 100vh;
@@ -818,7 +1096,7 @@ const StyleSense = () => {
           padding: 0 5%;
           position: relative;
           overflow: hidden;
-          padding-top: 80px;
+          padding-top: var(--header-height);
         }
         
         .hero::before {
@@ -966,6 +1244,7 @@ const StyleSense = () => {
           overflow: hidden;
           text-decoration: none;
           color: inherit;
+          scroll-margin-top: calc(var(--header-height) + 20px);
         }
         
         .feature-card::before {
@@ -1049,6 +1328,21 @@ const StyleSense = () => {
           position: absolute;
           top: 15px;
           right: 15px;
+        }
+        
+        /* Coming Soon Styles */
+        .feature-card.coming-soon {
+          opacity: 0.7;
+          cursor: not-allowed;
+        }
+        
+        .feature-card.coming-soon:hover {
+          transform: none;
+          box-shadow: none;
+        }
+        
+        .feature-card.coming-soon .feature-icon {
+          filter: grayscale(1);
         }
         
         /* Demo Section */
@@ -1524,8 +1818,16 @@ const StyleSense = () => {
         }
         
         @media (max-width: 768px) {
-          nav {
+          .desktop-nav {
             display: none;
+          }
+          
+          .mobile-menu-toggle {
+            display: block;
+          }
+          
+          .mobile-nav {
+            display: block;
           }
           
           .hero {
@@ -1580,6 +1882,10 @@ const StyleSense = () => {
           
           .cta p {
             font-size: 1rem;
+          }
+          
+          .header-buttons .cta-button {
+            display: none;
           }
         }
       `}</style>
