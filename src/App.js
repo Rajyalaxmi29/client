@@ -5,8 +5,11 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Upload from './components/Upload';
+
  // Only this one!
-import ProAdvancedSkinToneAnalysis from './features/SkinToneAnalyzer/attached_assets/SkinToneAnalyzer';
+ import SkinToneAnalyzer from './features/SkinToneAnalyzer/attached_assets/SkinToneAnalyzer'; // Adjust path if needed
+// if using aliases
+
 
 import VirtualTryOn from './components/VirtualTryOn';
 
@@ -18,7 +21,8 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
-             <Route path="/skin-analyzer" element={<ProAdvancedSkinToneAnalysis />} />
+        <Route path="/skin-analyzer" element={<SkinToneAnalyzer />} />
+            
          <Route path="/virtual-tryon" element={<VirtualTryOn />} />
         
         <Route path="/login" element={<Login />} />
