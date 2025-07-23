@@ -1,20 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { 
-  FaCamera, FaPalette, FaCalendarAlt, FaTshirt, FaLock, 
-  FaCheckCircle, FaCheck, FaInstagram, FaTwitter, FaPinterest, 
+import { useInView } from 'react-intersection-observer';
+import {
+  FaCamera, FaPalette, FaCalendarAlt, FaTshirt, FaLock,
+  FaCheckCircle, FaCheck, FaInstagram, FaTwitter, FaPinterest,
   FaTiktok, FaRobot, FaLanguage, FaSmile, FaGamepad, FaShoppingBag,
   FaUsers, FaHeart, FaComments, FaCloudSun, FaUserShield, FaLeaf,
   FaGem, FaMagic, FaMobileAlt, FaChartLine, FaBars, FaTimes
 } from 'react-icons/fa';
-import { useInView } from 'react-intersection-observer';
 
-// FeatureCard component with availability handling
 const FeatureCard = ({ icon, title, description, tag, link, isAvailable, id }) => {
-  const [ref, inView] = useInView({
-    threshold: 0.3,
-    triggerOnce: true
-  });
+  const [ref, inView] = useInView({ threshold: 0.3, triggerOnce: true });
 
   const effectiveLink = isAvailable ? link : "#";
   const effectiveTag = isAvailable ? tag : (tag ? `${tag} | COMING SOON` : "COMING SOON");
@@ -42,7 +38,6 @@ const FeatureCard = ({ icon, title, description, tag, link, isAvailable, id }) =
   );
 };
 
-// PricingCard component
 const PricingCard = ({ title, price, features, popular, buttonText }) => {
   const [ref, inView] = useInView({
     threshold: 0.3,
@@ -79,7 +74,6 @@ const PricingCard = ({ title, price, features, popular, buttonText }) => {
   );
 };
 
-// TestimonialCard component
 const TestimonialCard = ({ quote, author, role, avatar }) => {
   const [ref, inView] = useInView({
     threshold: 0.3,
@@ -108,15 +102,27 @@ const TestimonialCard = ({ quote, author, role, avatar }) => {
   );
 };
 
-// Main StyleSense component
-const StyleSense = () => {
+const Home = () => {
+  const unicornRef = useRef(null);
   const [heroRef, heroInView] = useInView({ threshold: 0.5, triggerOnce: true });
   const [activeSection, setActiveSection] = useState('home');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  // Track scroll position for header effect
+  // Load Unicorn AI script on mount
   useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v1.4.29/dist/unicornStudio.umd.js";
+    script.async = true;
+    script.onload = () => {
+      if (!window.UnicornStudio?.isInitialized) {
+        window.UnicornStudio.init();
+        window.UnicornStudio.isInitialized = true;
+      }
+    };
+    document.body.appendChild(script);
+
+    // Track scroll position for header effect
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
     };
@@ -543,6 +549,37 @@ const StyleSense = () => {
         </motion.div>
       </motion.section>
 
+      {/* Unicorn Embed Section */}
+      <section className="unicorn-embed-section min-h-screen w-full bg-[#111827] text-white py-12 px-4">
+  <div className="text-center mb-8">
+    <h2 className="text-4xl font-extrabold">
+      Try Our <span className="text-pink-500">AI Fashion Assistant</span>
+    </h2>
+    <p className="mt-2 text-lg text-gray-300">
+      Get instant style recommendations powered by Unicorn AI ✨
+    </p>
+  </div>
+
+  <div className="max-w-6xl mx-auto rounded-xl overflow-hidden shadow-2xl border border-gray-700">
+    <div
+      ref={unicornRef}
+      data-us-project="pZb9FHkY4j36f8dhAcDE"
+      style={{
+        width: "100%",
+        height: "600px",
+        borderRadius: "16px",
+        overflow: "hidden",
+        backgroundColor: "#111",
+      }}
+    />
+  </div>
+
+  <div className="text-center mt-6">
+    <p className="text-sm text-gray-400">✨ Embedded AI Fashion Assistant</p>
+  </div>
+</section>
+
+
       {/* Features Section */}
       <section className="features" id="features">
         <div className="section-title">
@@ -947,6 +984,7 @@ const StyleSense = () => {
           justify-content: space-between;
           align-items: center;
         }
+
         
         .logo {
           display: flex;
@@ -1893,4 +1931,4 @@ const StyleSense = () => {
   );
 };
 
-export default StyleSense;
+export default Home;

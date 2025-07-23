@@ -7,7 +7,7 @@ import Register from './pages/Register';
 import Upload from './components/Upload';
 
  // Only this one!
- import SkinToneAnalyzer from './features/SkinToneAnalyzer/attached_assets/SkinToneAnalyzer'; // Adjust path if needed
+ import SkinToneAnalyzer from './components/SkinToneAnalyzer'; // Adjust path if needed
 // if using aliases
 
 
