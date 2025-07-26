@@ -20,8 +20,8 @@ export default function Navbar() {
     { path: "/skin-analyzer", name: "Skin Analysis", icon: <FaPalette /> },
     { path: "/virtual-tryon", name: "Virtual Try-On", icon: <FaCamera /> },
     { path: "/smart-wardrobe", name: "Smart Wardrobe", icon: <FaLock /> },
-    { path: "/community", name: "Community", icon: <FaUsers /> },
-    { path: "/profile", name: "My Style", icon: <FaUserCircle /> }
+     { path: "/community", name: "Community", icon: <FaUsers /> },
+  { path: "/my-style", name: "My Style", icon: <FaUserCircle /> }
   ];
 
   // Close navbar on outside click
