@@ -323,7 +323,7 @@ const Home = () => {
 
   const testimonials = [
     {
-      quote: "As a dark-skinned Indian woman, I always struggled with colors. StyleSense showed me which shades actually suit me. I've never received so many compliments!",
+      quote: "As a dark-skinned Indian woman, I always struggled with colors. Ruva showed me which shades actually suit me. I've never received so many compliments!",
       author: "Priya K.",
       role: "Software Engineer, Hyderabad",
       avatar: "https://randomuser.me/api/portraits/women/65.jpg"
@@ -343,12 +343,15 @@ const Home = () => {
   ];
 
   return (
-    <div className="stylesense-container">
+    <div className="ruva-container">
       {/* Header */}
       <header className={`header ${scrolled ? 'scrolled' : ''}`}>
         <div className="header-content">
           <a href="#" className="logo" onClick={(e) => { e.preventDefault(); scrollToSection('home'); }}>
-            Style<span>Sense</span>
+            <div className="logo-container">
+              <div className="logo-image">RUVA</div>
+              <div className="logo-subtitle">SMARTFASHION</div>
+            </div>
           </a>
           
           {/* Desktop Navigation */}
@@ -502,7 +505,7 @@ const Home = () => {
             animate={heroInView ? { y: 0, opacity: 1 } : {}}
             transition={{ delay: 0.4, duration: 0.8 }}
           >
-            StyleSense uses advanced artificial intelligence designed specifically for Indian skin tones, body types, and cultural preferences. Get confident with your style while keeping your data 100% private.
+            Ruva uses advanced artificial intelligence designed specifically for Indian skin tones, body types, and cultural preferences. Get confident with your style while keeping your data 100% private.
           </motion.p>
           <motion.div 
             className="hero-buttons"
@@ -536,7 +539,7 @@ const Home = () => {
         >
           <img 
             src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?ixlib=rb-4.1.0&auto=format&fit=crop&w=687&q=80" 
-            alt="Indian woman using StyleSense" 
+            alt="Indian woman using Ruva" 
           />
           <motion.div 
             className="hero-badge"
@@ -550,35 +553,28 @@ const Home = () => {
       </motion.section>
 
       {/* Unicorn Embed Section */}
-      <section className="unicorn-embed-section min-h-screen w-full bg-[#111827] text-white py-12 px-4">
-  <div className="text-center mb-8">
-    <h2 className="text-4xl font-extrabold">
-      Try Our <span className="text-pink-500">AI Fashion Assistant</span>
-    </h2>
-    <p className="mt-2 text-lg text-gray-300">
-      Get instant style recommendations powered by Unicorn AI ✨
-    </p>
-  </div>
+      <section className="unicorn-embed-section">
+        <div className="text-center mb-8">
+          <h2 className="text-4xl font-extrabold">
+            Try Our <span className="text-primary">AI Fashion Assistant</span>
+          </h2>
+          <p className="mt-2 text-lg text-gray-300">
+            Get instant style recommendations powered by Unicorn AI ✨
+          </p>
+        </div>
 
-  <div className="max-w-6xl mx-auto rounded-xl overflow-hidden shadow-2xl border border-gray-700">
-    <div
-      ref={unicornRef}
-      data-us-project="pZb9FHkY4j36f8dhAcDE"
-      style={{
-        width: "100%",
-        height: "600px",
-        borderRadius: "16px",
-        overflow: "hidden",
-        backgroundColor: "#111",
-      }}
-    />
-  </div>
+        <div className="max-w-6xl mx-auto rounded-xl overflow-hidden shadow-2xl border border-gray-700">
+          <div
+            ref={unicornRef}
+            data-us-project="pZb9FHkY4j36f8dhAcDE"
+            className="unicorn-embed"
+          />
+        </div>
 
-  <div className="text-center mt-6">
-    <p className="text-sm text-gray-400">✨ Embedded AI Fashion Assistant</p>
-  </div>
-</section>
-
+        <div className="text-center mt-6">
+          <p className="text-sm text-gray-400">✨ Embedded AI Fashion Assistant</p>
+        </div>
+      </section>
 
       {/* Features Section */}
       <section className="features" id="features">
@@ -700,7 +696,7 @@ const Home = () => {
         >
           <img 
             src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-4.1.0&auto=format&fit=crop&w=1025&q=80" 
-            alt="Indian women using StyleSense" 
+            alt="Indian women using Ruva" 
           />
           <motion.div 
             className="demo-badge"
@@ -843,7 +839,7 @@ const Home = () => {
       >
         <div className="cta-content">
           <h2>Ready to Transform Your Indian Style?</h2>
-          <p>Join over 250,000 Indian users who discovered their perfect look with StyleSense. Start your 7-day free trial today—no credit card required.</p>
+          <p>Join over 250,000 Indian users who discovered their perfect look with Ruva. Start your 7-day free trial today—no credit card required.</p>
           <motion.button 
             className="cta-button"
             whileHover={{ scale: 1.05 }}
@@ -859,7 +855,7 @@ const Home = () => {
       <footer>
         <div className="footer-grid">
           <div className="footer-col">
-            <h3>StyleSense</h3>
+            <h3>Ruva</h3>
             <p>India's first AI personal style assistant, helping you discover and refine your unique style with confidence.</p>
             <div className="social-links">
               <motion.a 
@@ -924,18 +920,20 @@ const Home = () => {
           </div>
         </div>
         <div className="footer-bottom">
-          <p>&copy; 2023 StyleSense. All rights reserved. AI fashion for Indian users.</p>
+          <p>&copy; 2023 Ruva. All rights reserved. AI fashion for Indian users.</p>
         </div>
       </footer>
 
       {/* CSS Styles */}
       <style jsx global>{`
         :root {
-          --primary: #FF4D89;
-          --secondary: #FF9E80;
+          --primary: #6C63FF;
+          --secondary: #4A44A6;
+          --accent: #FF6584;
           --dark: #1A1A2E;
-          --darker: #16213E;
+          --darker: #121212;
           --light: #F8F8F8;
+          --text: #333333;
           --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
           --indian-gradient: linear-gradient(135deg, #FF9933, #138808, #000080);
           --header-height: 80px;
@@ -945,12 +943,12 @@ const Home = () => {
           margin: 0;
           padding: 0;
           box-sizing: border-box;
-          font-family: 'Poppins', sans-serif;
+          font-family: 'Inter', sans-serif;
         }
         
         body {
-          background-color: var(--dark);
-          color: var(--light);
+          background-color: #FFFFFF;
+          color: var(--text);
           overflow-x: hidden;
           scroll-behavior: smooth;
           scroll-padding-top: var(--header-height);
@@ -958,7 +956,7 @@ const Home = () => {
         
         /* Header */
         .header {
-          background: rgba(26, 26, 46, 0.9);
+          background: rgba(255, 255, 255, 0.95);
           backdrop-filter: blur(10px);
           position: fixed;
           width: 100%;
@@ -967,14 +965,14 @@ const Home = () => {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+          border-bottom: 1px solid rgba(0, 0, 0, 0.05);
           transition: all 0.3s ease;
           height: var(--header-height);
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
         }
         
         .header.scrolled {
-          background: rgba(26, 26, 46, 0.95);
-          box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
           height: 70px;
         }
         
@@ -983,24 +981,29 @@ const Home = () => {
           display: flex;
           justify-content: space-between;
           align-items: center;
+          max-width: 1400px;
+          margin: 0 auto;
         }
 
-        
-        .logo {
+        .logo-container {
           display: flex;
-          align-items: center;
-          gap: 10px;
-          font-size: 1.8rem;
-          font-weight: 700;
-          color: white;
-          text-decoration: none;
+          flex-direction: column;
         }
         
-        .logo span {
-          background: var(--gradient);
-          -webkit-background-clip: text;
-          background-clip: text;
-          color: transparent;
+        .logo-image {
+          font-size: 2.2rem;
+          font-weight: 800;
+          color: var(--primary);
+          letter-spacing: -1px;
+        }
+        
+        .logo-subtitle {
+          font-size: 0.8rem;
+          font-weight: 600;
+          color: var(--secondary);
+          letter-spacing: 2px;
+          text-transform: uppercase;
+          margin-top: -5px;
         }
         
         nav ul {
@@ -1010,7 +1013,7 @@ const Home = () => {
         }
         
         nav a {
-          color: var(--light);
+          color: var(--text);
           text-decoration: none;
           font-weight: 500;
           transition: all 0.3s ease;
@@ -1063,12 +1066,12 @@ const Home = () => {
           border: none;
           cursor: pointer;
           font-size: 1rem;
-          box-shadow: 0 4px 15px rgba(255, 77, 137, 0.3);
+          box-shadow: 0 4px 15px rgba(108, 99, 255, 0.3);
         }
         
         .cta-button:hover {
           transform: translateY(-3px);
-          box-shadow: 0 10px 20px rgba(255, 77, 137, 0.4);
+          box-shadow: 0 10px 20px rgba(108, 99, 255, 0.4);
         }
         
         .header-buttons {
@@ -1081,18 +1084,18 @@ const Home = () => {
           display: none;
           font-size: 1.5rem;
           cursor: pointer;
-          color: white;
+          color: var(--text);
         }
         
         .mobile-nav {
           display: none;
-          background: var(--darker);
+          background: white;
           position: absolute;
           top: var(--header-height);
           left: 0;
           width: 100%;
           padding: 1rem;
-          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
           z-index: 999;
           transform: translateY(-150%);
           transition: transform 0.3s ease;
@@ -1111,7 +1114,7 @@ const Home = () => {
         }
         
         .mobile-nav a {
-          color: var(--light);
+          color: var(--text);
           text-decoration: none;
           font-size: 1.1rem;
           display: block;
@@ -1122,31 +1125,20 @@ const Home = () => {
         
         .mobile-nav a:hover,
         .mobile-nav a.active {
-          background: rgba(255, 255, 255, 0.1);
+          background: rgba(108, 99, 255, 0.1);
           color: var(--primary);
         }
         
         /* Hero Section */
         .hero {
-          height: 100vh;
+          min-height: 100vh;
           display: flex;
           align-items: center;
           padding: 0 5%;
           position: relative;
           overflow: hidden;
           padding-top: var(--header-height);
-        }
-        
-        .hero::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: url('https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-4.1.0&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
-          opacity: 0.2;
-          z-index: -1;
+          background: linear-gradient(135deg, #f5f7fa 0%, #e4e7f1 100%);
         }
         
         .hero-content {
@@ -1158,11 +1150,12 @@ const Home = () => {
           font-size: 3.5rem;
           margin-bottom: 1.5rem;
           line-height: 1.2;
-          font-weight: 700;
+          font-weight: 800;
+          color: var(--darker);
         }
         
         .hero h1 span {
-          background: var(--indian-gradient);
+          background: var(--gradient);
           -webkit-background-clip: text;
           background-clip: text;
           color: transparent;
@@ -1171,7 +1164,7 @@ const Home = () => {
         .hero p {
           font-size: 1.1rem;
           margin-bottom: 2rem;
-          opacity: 0.9;
+          color: #555;
           line-height: 1.6;
         }
         
@@ -1183,7 +1176,7 @@ const Home = () => {
         
         .secondary-button {
           background: transparent;
-          color: white;
+          color: var(--primary);
           padding: 0.8rem 1.8rem;
           border-radius: 50px;
           font-weight: 600;
@@ -1194,7 +1187,7 @@ const Home = () => {
         }
         
         .secondary-button:hover {
-          background: rgba(255, 77, 137, 0.2);
+          background: rgba(108, 99, 255, 0.1);
           transform: translateY(-3px);
         }
         
@@ -1205,8 +1198,8 @@ const Home = () => {
           max-width: 700px;
           border-radius: 20px;
           overflow: hidden;
-          box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
-          border: 5px solid rgba(255, 255, 255, 0.1);
+          box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+          border: 5px solid white;
         }
         
         .hero-image img {
@@ -1225,19 +1218,34 @@ const Home = () => {
           bottom: 20px;
           left: 50%;
           transform: translateX(-50%);
-          background: var(--indian-gradient);
+          background: var(--gradient);
           color: white;
           padding: 0.8rem 1.5rem;
           border-radius: 50px;
           font-weight: 600;
-          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
           animation: pulse 2s infinite;
+        }
+        
+        /* Unicorn Embed Section */
+        .unicorn-embed-section {
+          padding: 8rem 5%;
+          background: linear-gradient(135deg, #f0f2f5 0%, #e6e9f0 100%);
+        }
+        
+        .unicorn-embed {
+          width: 100%;
+          height: 600px;
+          border-radius: 16px;
+          overflow: hidden;
+          background-color: white;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
         }
         
         /* Features Section */
         .features {
           padding: 8rem 5%;
-          background-color: var(--darker);
+          background-color: white;
         }
         
         .section-title {
@@ -1249,6 +1257,7 @@ const Home = () => {
           font-size: 2.5rem;
           margin-bottom: 1rem;
           font-weight: 700;
+          color: var(--darker);
         }
         
         .section-title h2 span {
@@ -1261,7 +1270,7 @@ const Home = () => {
         .section-title p {
           max-width: 700px;
           margin: 0 auto;
-          opacity: 0.8;
+          color: #666;
           font-size: 1.1rem;
         }
         
@@ -1273,56 +1282,23 @@ const Home = () => {
         }
         
         .feature-card {
-          background: rgba(255, 255, 255, 0.05);
+          background: white;
           border-radius: 15px;
           padding: 2rem;
           transition: all 0.3s ease;
-          border: 1px solid rgba(255, 255, 255, 0.1);
+          border: 1px solid rgba(0, 0, 0, 0.05);
           position: relative;
           overflow: hidden;
           text-decoration: none;
           color: inherit;
           scroll-margin-top: calc(var(--header-height) + 20px);
-        }
-        
-        .feature-card::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: var(--gradient);
-          opacity: 0;
-          transition: opacity 0.3s ease;
-          z-index: -1;
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
         }
         
         .feature-card:hover {
           transform: translateY(-10px);
-          box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-        }
-        
-        .feature-card:hover::before {
-          opacity: 0.1;
-        }
-        
-        .feature-card::after {
-          content: '';
-          position: absolute;
-          bottom: 0;
-          left: 0;
-          width: 100%;
-          height: 3px;
-          background: var(--gradient);
-          transform: scaleX(0);
-          transform-origin: right;
-          transition: transform 0.3s ease;
-        }
-        
-        .feature-card:hover::after {
-          transform: scaleX(1);
-          transform-origin: left;
+          box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+          border-color: rgba(108, 99, 255, 0.2);
         }
         
         .feature-icon {
@@ -1333,7 +1309,7 @@ const Home = () => {
           align-items: center;
           justify-content: center;
           margin-bottom: 1.5rem;
-          background: var(--gradient);
+          background: linear-gradient(135deg, var(--primary), var(--secondary));
           color: white;
           font-size: 1.5rem;
           transition: transform 0.3s ease;
@@ -1347,10 +1323,11 @@ const Home = () => {
           font-size: 1.5rem;
           margin-bottom: 1rem;
           font-weight: 600;
+          color: var(--darker);
         }
         
         .feature-card p {
-          opacity: 0.8;
+          color: #666;
           margin-bottom: 1.5rem;
           line-height: 1.6;
         }
@@ -1358,7 +1335,7 @@ const Home = () => {
         .feature-tag {
           display: inline-block;
           padding: 0.3rem 0.8rem;
-          background: rgba(255, 77, 137, 0.2);
+          background: rgba(108, 99, 255, 0.1);
           color: var(--primary);
           border-radius: 50px;
           font-size: 0.8rem;
@@ -1370,17 +1347,13 @@ const Home = () => {
         
         /* Coming Soon Styles */
         .feature-card.coming-soon {
-          opacity: 0.7;
+          opacity: 0.8;
           cursor: not-allowed;
         }
         
         .feature-card.coming-soon:hover {
           transform: none;
-          box-shadow: none;
-        }
-        
-        .feature-card.coming-soon .feature-icon {
-          filter: grayscale(1);
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
         }
         
         /* Demo Section */
@@ -1389,6 +1362,7 @@ const Home = () => {
           display: flex;
           align-items: center;
           gap: 5rem;
+          background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
         }
         
         .demo-content {
@@ -1400,17 +1374,18 @@ const Home = () => {
           margin-bottom: 1.5rem;
           line-height: 1.3;
           font-weight: 700;
+          color: var(--darker);
         }
         
         .demo-content h2 span {
-          background: var(--indian-gradient);
+          background: var(--gradient);
           -webkit-background-clip: text;
           background-clip: text;
           color: transparent;
         }
         
         .demo-content p {
-          opacity: 0.9;
+          color: #666;
           margin-bottom: 2rem;
           line-height: 1.6;
           font-size: 1.1rem;
@@ -1428,10 +1403,13 @@ const Home = () => {
           padding: 1rem;
           border-radius: 10px;
           transition: all 0.3s ease;
+          background: white;
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
         }
         
         .demo-feature:hover {
-          background: rgba(255, 255, 255, 0.05);
+          transform: translateY(-5px);
+          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
         }
         
         .demo-feature svg {
@@ -1445,10 +1423,11 @@ const Home = () => {
           font-size: 1.1rem;
           margin-bottom: 0.5rem;
           font-weight: 600;
+          color: var(--darker);
         }
         
         .demo-feature p {
-          opacity: 0.8;
+          color: #666;
           margin-bottom: 0;
           font-size: 0.95rem;
         }
@@ -1461,8 +1440,8 @@ const Home = () => {
         .demo-image img {
           width: 100%;
           border-radius: 20px;
-          box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
-          border: 5px solid rgba(255, 255, 255, 0.1);
+          box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+          border: 5px solid white;
           transition: transform 0.5s ease;
         }
         
@@ -1474,12 +1453,12 @@ const Home = () => {
           position: absolute;
           top: -20px;
           right: -20px;
-          background: var(--indian-gradient);
+          background: var(--gradient);
           color: white;
           padding: 1rem 1.5rem;
           border-radius: 10px;
           font-weight: 600;
-          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
           animation: pulse 2s infinite;
         }
         
@@ -1538,6 +1517,7 @@ const Home = () => {
           line-height: 1.6;
           margin-bottom: 1.5rem;
           font-style: italic;
+          color: white;
         }
         
         .testimonial-author {
@@ -1569,17 +1549,18 @@ const Home = () => {
           font-size: 1.1rem;
           margin-bottom: 0.2rem;
           font-weight: 600;
+          color: white;
         }
         
         .author-info p {
-          opacity: 0.7;
+          color: rgba(255, 255, 255, 0.7);
           font-size: 0.9rem;
         }
         
         /* Pricing */
         .pricing {
           padding: 8rem 5%;
-          background-color: var(--darker);
+          background-color: white;
         }
         
         .pricing-grid {
@@ -1590,40 +1571,24 @@ const Home = () => {
         }
         
         .pricing-card {
-          background: rgba(255, 255, 255, 0.05);
+          background: white;
           border-radius: 15px;
           padding: 2.5rem;
           transition: all 0.3s ease;
-          border: 1px solid rgba(255, 255, 255, 0.1);
+          border: 1px solid rgba(0, 0, 0, 0.05);
           position: relative;
           overflow: hidden;
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
         }
         
-        .pricing-card::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: var(--gradient);
-          opacity: 0;
-          transition: opacity 0.3s ease;
-          z-index: -1;
-        }
-        
-        .pricing-card:hover::before {
-          opacity: 0.1;
+        .pricing-card:hover {
+          transform: translateY(-10px);
+          box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
         }
         
         .pricing-card.popular {
           border: 1px solid var(--primary);
           transform: scale(1.05);
-        }
-        
-        .pricing-card:hover {
-          transform: translateY(-10px);
-          box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
         }
         
         .pricing-card.popular:hover {
@@ -1640,13 +1605,13 @@ const Home = () => {
           border-radius: 50px;
           font-size: 0.8rem;
           font-weight: 600;
-          transform: rotate(15deg);
         }
         
         .pricing-card h3 {
           font-size: 1.8rem;
           margin-bottom: 1rem;
           font-weight: 600;
+          color: var(--darker);
         }
         
         .price {
@@ -1657,11 +1622,6 @@ const Home = () => {
           -webkit-background-clip: text;
           background-clip: text;
           color: transparent;
-        }
-        
-        .price span {
-          font-size: 1rem;
-          opacity: 0.7;
         }
         
         .pricing-features {
@@ -1681,7 +1641,7 @@ const Home = () => {
         }
         
         .pricing-feature p {
-          opacity: 0.9;
+          color: #666;
         }
         
         .pricing-button {
@@ -1697,43 +1657,31 @@ const Home = () => {
         .pricing-card.popular .pricing-button {
           background: var(--gradient);
           color: white;
-          box-shadow: 0 4px 15px rgba(255, 77, 137, 0.3);
+          box-shadow: 0 4px 15px rgba(108, 99, 255, 0.3);
         }
         
         .pricing-card:not(.popular) .pricing-button {
           background: transparent;
-          color: white;
+          color: var(--primary);
           border: 2px solid var(--primary);
         }
         
         .pricing-card.popular .pricing-button:hover {
           transform: translateY(-3px);
-          box-shadow: 0 10px 20px rgba(255, 77, 137, 0.4);
+          box-shadow: 0 10px 20px rgba(108, 99, 255, 0.4);
         }
         
         .pricing-card:not(.popular) .pricing-button:hover {
-          background: rgba(255, 77, 137, 0.2);
+          background: rgba(108, 99, 255, 0.1);
         }
         
         /* CTA Section */
         .cta {
           padding: 8rem 5%;
           text-align: center;
-          background: var(--indian-gradient);
+          background: var(--gradient);
           position: relative;
           overflow: hidden;
-        }
-        
-        .cta::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: url('https://images.unsplash.com/photo-1551232864-3f0890e580d9?ixlib=rb-4.1.0&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
-          opacity: 0.2;
-          z-index: 0;
         }
         
         .cta-content {
@@ -1748,12 +1696,13 @@ const Home = () => {
           margin-bottom: 1.5rem;
           line-height: 1.3;
           font-weight: 700;
+          color: white;
         }
         
         .cta p {
           font-size: 1.2rem;
           margin-bottom: 2.5rem;
-          opacity: 0.9;
+          color: rgba(255, 255, 255, 0.9);
           line-height: 1.6;
         }
         
@@ -1761,6 +1710,7 @@ const Home = () => {
         footer {
           background-color: var(--darker);
           padding: 5rem 5% 2rem;
+          color: white;
         }
         
         .footer-grid {
@@ -1768,6 +1718,8 @@ const Home = () => {
           grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
           gap: 3rem;
           margin-bottom: 3rem;
+          max-width: 1400px;
+          margin: 0 auto 3rem;
         }
         
         .footer-col h3 {
@@ -1837,6 +1789,8 @@ const Home = () => {
           border-top: 1px solid rgba(255, 255, 255, 0.1);
           opacity: 0.7;
           font-size: 0.9rem;
+          max-width: 1400px;
+          margin: 0 auto;
         }
         
         /* Responsive */
@@ -1898,6 +1852,10 @@ const Home = () => {
           .cta h2 {
             font-size: 2.2rem;
           }
+
+          .unicorn-embed {
+            height: 500px;
+          }
         }
         
         @media (max-width: 576px) {
@@ -1924,6 +1882,10 @@ const Home = () => {
           
           .header-buttons .cta-button {
             display: none;
+          }
+
+          .unicorn-embed {
+            height: 400px;
           }
         }
       `}</style>

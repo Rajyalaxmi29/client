@@ -6,14 +6,9 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Upload from './components/Upload';
 
- // Only this one!
- import SkinToneAnalyzer from './components/SkinToneAnalyzer'; // Adjust path if needed
-// if using aliases
-
-
+import SkinToneAnalyzer from './components/SkinToneAnalyzer';
 import VirtualTryOn from './components/VirtualTryOn';
-
-
+import SmartWardrobe from './components/SmartWardrobe';
 
 function App() {
   return (
@@ -22,9 +17,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/skin-analyzer" element={<SkinToneAnalyzer />} />
-            
-         <Route path="/virtual-tryon" element={<VirtualTryOn />} />
-        
+        <Route path="/smart-wardrobe" element={<SmartWardrobe />} />    
+        <Route path="/virtual-tryon" element={<VirtualTryOn />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/upload" element={<Upload />} />

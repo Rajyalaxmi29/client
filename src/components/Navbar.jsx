@@ -7,7 +7,8 @@ import {
   FaTshirt,
   FaUsers,
   FaUserCircle,
-  FaFire
+  FaFire,
+  FaLock
 } from 'react-icons/fa';
 
 export default function Navbar() {
@@ -18,6 +19,7 @@ export default function Navbar() {
     { path: "/", name: "Home" },
     { path: "/skin-analyzer", name: "Skin Analysis", icon: <FaPalette /> },
     { path: "/virtual-tryon", name: "Virtual Try-On", icon: <FaCamera /> },
+    { path: "/smart-wardrobe", name: "Smart Wardrobe", icon: <FaLock /> },
     { path: "/community", name: "Community", icon: <FaUsers /> },
     { path: "/profile", name: "My Style", icon: <FaUserCircle /> }
   ];
