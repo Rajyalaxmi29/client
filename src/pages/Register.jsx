@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase"; // Adjust path if needed
+import { setDoc, doc } from "firebase/firestore";
+import { auth, db } from "../firebase"; // Ensure db is exported from your firebase.js
 
 export default function Register() {
   const [form, setForm] = useState({
@@ -28,7 +29,27 @@ export default function Register() {
       return;
     }
     try {
-      await createUserWithEmailAndPassword(auth, form.email, form.password);
+      // 1. Create user in Firebase Auth
+      const userCredential = await createUserWithEmailAndPassword(auth, form.email, form.password);
+      const user = userCredential.user;
+
+      // 2. Create Firestore user document with all dashboard fields
+      await setDoc(doc(db, "users", user.uid), {
+        name: form.name,
+        age: form.age,
+        email: form.email,
+        bio: "",
+        profileImage: "",
+        skinTone: "",
+        skinColor: "",
+        level: 1,
+        xp: 0,
+        journalStreak: 0,
+        achievements: [],
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      });
+
       setForm({ name: "", age: "", email: "", password: "", confirmPassword: "" });
       setError("");
       navigate("/login");
